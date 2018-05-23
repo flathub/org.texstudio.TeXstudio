@@ -7,10 +7,10 @@ rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
+  - --socket=wayland
   - --socket=x11
   - --share=ipc
   - --device=dri
-  - --socket=wayland
   - --filesystem=home
   - --env=PATH=/usr/bin:/app/bin:/app/bin/x86_64-linux
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
