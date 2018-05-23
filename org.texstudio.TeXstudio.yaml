@@ -91,3 +91,5 @@ modules:
       sha256: 3dec30ded3f36bb0591f8ed1b78b86fa23f276f5744925bc91075715c3f58062
     - type: patch
       path: konsole.patch
+  post-install:
+    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
