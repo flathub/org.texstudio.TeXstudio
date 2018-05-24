@@ -1,5 +1,5 @@
 app-id: org.texstudio.TeXstudio
-runtime: org.kde.Platform
+runtime: org.kde.Sdk
 runtime-version: 5.9
 sdk: org.kde.Sdk
 command: texstudio
