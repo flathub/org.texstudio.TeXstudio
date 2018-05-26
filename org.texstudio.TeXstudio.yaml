@@ -11,8 +11,8 @@ finish-args:
   - --socket=x11
   - --share=ipc
   - --device=dri
-  - --filesystem=home
-  - --share=network
+  - --filesystem=home # lets LuaLaTeX etc. write output files to ~
+  - --share=network # required for LanguageTool
   - --env=PATH=/usr/bin:/app/bin:/app/bin/x86_64-linux
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
 build-options:
@@ -44,7 +44,7 @@ modules:
     commands:
     - exec ./configure.gnu $@
 
-- name: p7zip
+- name: p7zip # required for unzipping texlive.iso
   no-autogen: true
   make-args:
     - 7z
@@ -58,7 +58,7 @@ modules:
       commands:
       - sed -i 's|/usr/local|/app|g' makefile.common
 
-- name: wget
+- name: wget # build dependency of TeX Live
   cleanup:
     - '*'
   sources:
@@ -78,14 +78,14 @@ modules:
     - "echo \"I\nn\" | TEXLIVE_INSTALL_PREFIX=/app ./install-tl -portable"
     - rm -rf /app/texmf-dist/doc
 
-- name: openjpeg
+- name: openjpeg # build dependency of poppler
   buildsystem: cmake-ninja
   sources:
     - type: archive
       url: https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
       sha256: 3dc787c1bb6023ba846c2a0d9b1f6e179f1cd255172bde9eb75b01f1e6c7d71a
 
-- name: poppler
+- name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
   config-opts:
     - -DCMAKE_BUILD_TYPE=release
