@@ -118,7 +118,7 @@ modules:
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
 
-- name: ghostscript
+- name: ghostscript # required for including .eps graphics
   config-opts:
   - --disable-cups
   build-options:
