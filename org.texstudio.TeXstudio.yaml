@@ -1,5 +1,5 @@
 app-id: org.texstudio.TeXstudio
-runtime: org.kde.Sdk
+runtime: org.kde.Platform
 runtime-version: 5.9
 sdk: org.kde.Sdk
 command: texstudio
@@ -21,6 +21,29 @@ build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
+
+- name: perl # required for makeglossaries
+  no-autogen: true
+  config-opts:
+  - -des # use default build configuration
+  - -Duseshrplib # build shared library
+  build-options:
+    cflags: -fPIC
+    ldflags: -fpic
+    no-debuginfo: true
+  cleanup:
+    - /man
+    - "*.pod"
+    - "*.h"
+  sources:
+  - type: archive
+    url: https://www.cpan.org/src/5.0/perl-5.26.1.tar.gz
+    sha256: e763aa485e8dc1a70483dbe6d615986bbf32b977f38016480d68c99237e701dd
+  - type: script
+    dest-filename: configure
+    commands:
+    - exec ./configure.gnu $@
+
 - name: p7zip
   no-autogen: true
   make-args:
