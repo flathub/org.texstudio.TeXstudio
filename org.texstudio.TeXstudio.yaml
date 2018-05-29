@@ -15,7 +15,7 @@ finish-args:
   - --share=network # required for LanguageTool
   - --env=PATH=/usr/bin:/app/bin:/app/bin/x86_64-linux
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
-  - --env=LC_ALL=C
+  - --env=LC_ALL=C # works around LuaLaTex issue with locale
 build-options:
   cflags: -O2
   cxxflags: -O2
