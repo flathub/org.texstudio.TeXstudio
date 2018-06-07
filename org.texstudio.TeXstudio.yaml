@@ -38,8 +38,8 @@ modules:
     - "*.h"
   sources:
   - type: archive
-    url: https://www.cpan.org/src/5.0/perl-5.27.9.tar.xz
-    sha256: 43d579758940244ffb958dbd2657372c62a58c4a208bd867c238f8ad0661071f
+    url: http://www.cpan.org/src/5.0/perl-5.26.2.tar.gz
+    sha256: 572f9cea625d6062f8a63b5cee9d3ee840800a001d2bb201a41b9a177ab7f70d
   - type: script
     dest-filename: configure
     commands:
