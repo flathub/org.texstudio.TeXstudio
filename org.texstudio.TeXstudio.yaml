@@ -38,8 +38,8 @@ modules:
     - "*.h"
   sources:
   - type: archive
-    url: https://www.cpan.org/src/5.0/perl-5.26.1.tar.gz
-    sha256: e763aa485e8dc1a70483dbe6d615986bbf32b977f38016480d68c99237e701dd
+    url: https://www.cpan.org/src/5.0/perl-5.27.9.tar.xz
+    sha256: 43d579758940244ffb958dbd2657372c62a58c4a208bd867c238f8ad0661071f
   - type: script
     dest-filename: configure
     commands:
@@ -94,15 +94,15 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.62.0.tar.xz
-      sha256: 5b9a73dfd4d6f61d165ada1e4f0abd2d420494bf9d0b1c15d0db3f7b83a729c6
+      url: https://poppler.freedesktop.org/poppler-0.65.0.tar.xz
+      sha256: 89c8cf73f83efda78c5a9bd37c28f4593ad0e8a51556dbe39ed81e1ae2dd8f07
 
 - name: konsole
   buildsystem: cmake-ninja
   sources:
     - url: git://anongit.kde.org/konsole.git
-      branch: v18.04.0
-      commit: 9fa8c11d1feab41ec5f114757e3acf27a428a117
+      branch: v18.04.1
+      commit: 022c03c5b25838fa403d606f21569be9ae9b3f08
       type: git
 
 - name: texstudio
