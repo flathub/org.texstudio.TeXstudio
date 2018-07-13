@@ -11,7 +11,7 @@ finish-args:
   - --socket=x11
   - --share=ipc
   - --device=dri
-  - --filesystem=home # lets LuaLaTeX etc. write output files to ~
+  - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
   - --share=network # required for LanguageTool
   - --env=PATH=/usr/bin:/app/bin:/app/bin/x86_64-linux
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
