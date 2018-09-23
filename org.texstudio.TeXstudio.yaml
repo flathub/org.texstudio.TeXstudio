@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: 5.9
+runtime-version: '5.11'
 sdk: org.kde.Sdk
 command: texstudio
 rename-icon: texstudio
@@ -8,7 +8,7 @@ rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
   - --socket=wayland
-  - --socket=x11
+  - --socket=fallback-x11
   - --share=ipc
   - --device=dri
   - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
@@ -23,6 +23,38 @@ build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
+
+- name: openjpeg # build dependency of poppler
+  buildsystem: cmake-ninja
+  sources:
+    - type: archive
+      url: https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
+      sha256: 3dc787c1bb6023ba846c2a0d9b1f6e179f1cd255172bde9eb75b01f1e6c7d71a
+
+- name: poppler # build dependency of TeXstudio
+  buildsystem: cmake-ninja
+  config-opts:
+    - -DCMAKE_BUILD_TYPE=release
+    - -DENABLE_QT5:BOOL=true
+    - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
+  sources:
+    - type: archive
+      url: https://poppler.freedesktop.org/poppler-0.69.0.tar.xz
+      sha256: 637ff943f805f304ff1da77ba2e7f1cbd675f474941fd8ae1e0fc01a5b45a3f9
+
+- name: texstudio
+  buildsystem: qmake
+  cleanup-platform:
+    - /bin
+    - /mkspecs
+  sources:
+    - type: archive
+      url: https://github.com/texstudio-org/texstudio/archive/2.12.10.tar.gz
+      sha256: 92cf9cbb536e58a5929611fa40438cd9d7ea6880022cd3c5de0483fd15d3df0b
+    - type: patch
+      path: konsole.patch
+  post-install:
+    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
 
 - name: perl # required for makeglossaries
   no-autogen: true
@@ -39,8 +71,8 @@ modules:
     - "*.h"
   sources:
   - type: archive
-    url: http://www.cpan.org/src/5.0/perl-5.26.2.tar.gz
-    sha256: 572f9cea625d6062f8a63b5cee9d3ee840800a001d2bb201a41b9a177ab7f70d
+    url: https://www.cpan.org/src/5.0/perl-5.28.0.tar.gz
+    sha256: 7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8
   - type: script
     dest-filename: configure
     commands:
@@ -80,45 +112,12 @@ modules:
     - "echo \"I\nn\" | TEXLIVE_INSTALL_PREFIX=/app ./install-tl -portable"
     - rm -rf /app/texmf-dist/doc
 
-- name: openjpeg # build dependency of poppler
-  buildsystem: cmake-ninja
-  sources:
-    - type: archive
-      url: https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
-      sha256: 3dc787c1bb6023ba846c2a0d9b1f6e179f1cd255172bde9eb75b01f1e6c7d71a
-
-- name: poppler # build dependency of TeXstudio
-  buildsystem: cmake-ninja
-  config-opts:
-    - -DCMAKE_BUILD_TYPE=release
-    - -DENABLE_QT5:BOOL=true
-    - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
-  sources:
-    - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.65.0.tar.xz
-      sha256: 89c8cf73f83efda78c5a9bd37c28f4593ad0e8a51556dbe39ed81e1ae2dd8f07
-
 - name: konsole
   buildsystem: cmake-ninja
   sources:
-    - url: git://anongit.kde.org/konsole.git
-      branch: v18.04.1
-      commit: 022c03c5b25838fa403d606f21569be9ae9b3f08
-      type: git
-
-- name: texstudio
-  buildsystem: qmake
-  cleanup-platform:
-    - /bin
-    - /mkspecs
-  sources:
-    - type: archive
-      url: https://github.com/texstudio-org/texstudio/archive/2.12.10.tar.gz
-      sha256: 92cf9cbb536e58a5929611fa40438cd9d7ea6880022cd3c5de0483fd15d3df0b
-    - type: patch
-      path: konsole.patch
-  post-install:
-    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
+    - url: https://github.com/KDE/konsole/archive/v18.08.1.tar.gz
+      sha256: 25eb2b7c1e48ee5e62160bde835be8e8e15bc22c398fda20d1103a4ef9cef8b6
+      type: archive
 
 - name: ghostscript # required for including .eps graphics
   config-opts:
