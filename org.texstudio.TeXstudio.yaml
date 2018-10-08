@@ -12,6 +12,8 @@ finish-args:
   - --share=ipc
   - --device=dri
   - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
+  - --filesystem=xdg-config/kdeglobals:ro # gives application access to kdeglobals
+  - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
   - --env=PATH=/usr/bin:/app/bin:/app/bin/x86_64-linux
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
