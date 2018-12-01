@@ -41,8 +41,8 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.69.0.tar.xz
-      sha256: 637ff943f805f304ff1da77ba2e7f1cbd675f474941fd8ae1e0fc01a5b45a3f9
+      url: https://poppler.freedesktop.org/poppler-0.71.0.tar.xz
+      sha256: badbecd2dddf63352fd85ec08a9c2ed122fdadacf2a34fcb4cc227c4d01f2cf9
 
 - name: texstudio
   buildsystem: qmake
@@ -51,8 +51,8 @@ modules:
     - /mkspecs
   sources:
     - type: archive
-      url: https://github.com/texstudio-org/texstudio/archive/2.12.10.tar.gz
-      sha256: 92cf9cbb536e58a5929611fa40438cd9d7ea6880022cd3c5de0483fd15d3df0b
+      url: https://github.com/texstudio-org/texstudio/archive/2.12.14.tar.gz
+      sha256: 61df71f368bbf21f865645534f63840fd48dbd2996d6d0188aa26d3b647fede0
     - type: patch
       path: konsole.patch
   post-install:
