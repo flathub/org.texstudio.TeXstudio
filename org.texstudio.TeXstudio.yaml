@@ -7,7 +7,7 @@ rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
-  - --socket=wayland
+#  - --socket=wayland (requires https://bugreports.qt.io/browse/QTBUG-68619 to be fixed)
   - --socket=fallback-x11
   - --share=ipc
   - --device=dri
