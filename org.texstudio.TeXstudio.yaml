@@ -1,13 +1,13 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.11'
+runtime-version: '5.12'
 sdk: org.kde.Sdk
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
-  # - --socket=wayland (disabled until Qt 5.12 is relased)
+  - --socket=wayland
   - --socket=fallback-x11
   - --share=ipc
   - --device=dri
@@ -20,12 +20,44 @@ finish-args:
   - --env=LC_ALL=C # works around LuaLaTex issue with locale
   - --env=TEXINPUTS=.:~/texmf/:
 build-options:
-  cflags: -O2
-  cxxflags: -O2
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
 
+- name: p7zip # required for unzipping texlive.iso
+  no-autogen: true
+  make-args:
+    - 7z
+  cleanup:
+    - '*'
+  sources:
+    - type: archive
+      url: https://sourceforge.net/projects/p7zip/files/p7zip/16.02/p7zip_16.02_src_all.tar.bz2
+      sha256: 5eb20ac0e2944f6cb9c2d51dd6c4518941c185347d4089ea89087ffdd6e2341f
+    - type: shell
+      commands:
+      - sed -i 's|/usr/local|/app|g' makefile.common
+
+- name: wget # build dependency of TeX Live
+  cleanup:
+    - '*'
+  sources:
+    - type: archive
+      url: https://ftp.gnu.org/gnu/wget/wget-1.19.tar.xz
+      sha256: 0f1157bbf4daae19f3e1ddb70c6ccb2067feb834a6aa23c9d9daa7f048606384
+
+- name: texlive
+  buildsystem: simple
+  sources:
+    - type: file
+      url: http://mirrors.ctan.org/systems/texlive/Images/texlive.iso
+      sha512: 7b7f0dd0eab3bfffe52c5cd1139c7f75d029b9ff4c4ce0e57e06834705522f4ec0c02cd99a80b053c6619abda51c20a60f8e91e91781bdc2b9b60fc2e5708adb
+  build-commands:
+    - 7z x texlive.iso
+    - chmod +x install-tl
+    - "echo \"I\nn\" | TEXLIVE_INSTALL_PREFIX=/app ./install-tl -portable"
+    - rm -rf /app/texmf-dist/doc
+    
 - name: openjpeg # build dependency of poppler
   buildsystem: cmake-ninja
   sources:
@@ -79,40 +111,6 @@ modules:
     dest-filename: configure
     commands:
     - exec ./configure.gnu $@
-
-- name: p7zip # required for unzipping texlive.iso
-  no-autogen: true
-  make-args:
-    - 7z
-  cleanup:
-    - '*'
-  sources:
-    - type: archive
-      url: https://sourceforge.net/projects/p7zip/files/p7zip/16.02/p7zip_16.02_src_all.tar.bz2
-      sha256: 5eb20ac0e2944f6cb9c2d51dd6c4518941c185347d4089ea89087ffdd6e2341f
-    - type: shell
-      commands:
-      - sed -i 's|/usr/local|/app|g' makefile.common
-
-- name: wget # build dependency of TeX Live
-  cleanup:
-    - '*'
-  sources:
-    - type: archive
-      url: https://ftp.gnu.org/gnu/wget/wget-1.19.tar.xz
-      sha256: 0f1157bbf4daae19f3e1ddb70c6ccb2067feb834a6aa23c9d9daa7f048606384
-
-- name: texlive
-  buildsystem: simple
-  sources:
-    - type: file
-      url: http://mirrors.ctan.org/systems/texlive/Images/texlive.iso
-      sha512: 7b7f0dd0eab3bfffe52c5cd1139c7f75d029b9ff4c4ce0e57e06834705522f4ec0c02cd99a80b053c6619abda51c20a60f8e91e91781bdc2b9b60fc2e5708adb
-  build-commands:
-    - 7z x texlive.iso
-    - chmod +x install-tl
-    - "echo \"I\nn\" | TEXLIVE_INSTALL_PREFIX=/app ./install-tl -portable"
-    - rm -rf /app/texmf-dist/doc
 
 - name: konsole
   buildsystem: cmake-ninja
