@@ -56,41 +56,10 @@ modules:
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
 
-- name: perl # required for makeglossaries
-  no-autogen: true
-  config-opts:
-  - -des # use default build configuration
-  - -Duseshrplib # build shared library
-  build-options:
-    cflags: -fPIC
-    ldflags: -fpic
-    no-debuginfo: true
-  cleanup:
-    - /man
-    - "*.pod"
-    - "*.h"
-  sources:
-  - type: archive
-    url: https://www.cpan.org/src/5.0/perl-5.28.0.tar.gz
-    sha256: 7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8
-  - type: script
-    dest-filename: configure
-    commands:
-    - exec ./configure.gnu $@
-
 - name: konsole
   buildsystem: cmake-ninja
   sources:
     - url: https://github.com/KDE/konsole/archive/v18.08.1.tar.gz
       sha256: 25eb2b7c1e48ee5e62160bde835be8e8e15bc22c398fda20d1103a4ef9cef8b6
       type: archive
-
-- name: ghostscript # required for including .eps graphics
-  config-opts:
-  - --disable-cups
-  build-options:
-    ldflags: -L/app/lib
-  sources:
-  - type: archive
-    url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/ghostscript-9.26.tar.xz
-    sha256: 90ed475f37584f646e9ef829932b2525d5c6fc2e0147e8d611bc50aa0e718598
+      
