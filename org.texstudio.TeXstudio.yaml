@@ -24,6 +24,11 @@ build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
+- name: texlive
+  buildsystem: simple
+  build-commands:
+  - /usr/lib/sdk/texlive/install.sh
+
 - name: openjpeg # build dependency of poppler
   buildsystem: cmake-ninja
   sources:
