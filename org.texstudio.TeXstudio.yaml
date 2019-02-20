@@ -2,6 +2,7 @@ app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
 runtime-version: '5.12'
 sdk: org.kde.Sdk
+sdk-extension: org.freedesktop.Sdk.Extension.texlive
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
@@ -23,41 +24,11 @@ build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
-
-- name: p7zip # required for unzipping texlive.iso
-  no-autogen: true
-  make-args:
-    - 7z
-  cleanup:
-    - '*'
-  sources:
-    - type: archive
-      url: https://sourceforge.net/projects/p7zip/files/p7zip/16.02/p7zip_16.02_src_all.tar.bz2
-      sha256: 5eb20ac0e2944f6cb9c2d51dd6c4518941c185347d4089ea89087ffdd6e2341f
-    - type: shell
-      commands:
-      - sed -i 's|/usr/local|/app|g' makefile.common
-
-- name: wget # build dependency of TeX Live
-  cleanup:
-    - '*'
-  sources:
-    - type: archive
-      url: https://ftp.gnu.org/gnu/wget/wget-1.19.tar.xz
-      sha256: 0f1157bbf4daae19f3e1ddb70c6ccb2067feb834a6aa23c9d9daa7f048606384
-
 - name: texlive
   buildsystem: simple
-  sources:
-    - type: file
-      url: http://mirrors.ctan.org/systems/texlive/Images/texlive.iso
-      sha512: 7b7f0dd0eab3bfffe52c5cd1139c7f75d029b9ff4c4ce0e57e06834705522f4ec0c02cd99a80b053c6619abda51c20a60f8e91e91781bdc2b9b60fc2e5708adb
   build-commands:
-    - 7z x texlive.iso
-    - chmod +x install-tl
-    - "echo \"I\nn\" | TEXLIVE_INSTALL_PREFIX=/app ./install-tl -portable"
-    - rm -rf /app/texmf-dist/doc
-    
+  - /usr/lib/sdk/texlive/install.sh
+
 - name: openjpeg # build dependency of poppler
   buildsystem: cmake-ninja
   sources:
@@ -90,41 +61,10 @@ modules:
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
 
-- name: perl # required for makeglossaries
-  no-autogen: true
-  config-opts:
-  - -des # use default build configuration
-  - -Duseshrplib # build shared library
-  build-options:
-    cflags: -fPIC
-    ldflags: -fpic
-    no-debuginfo: true
-  cleanup:
-    - /man
-    - "*.pod"
-    - "*.h"
-  sources:
-  - type: archive
-    url: https://www.cpan.org/src/5.0/perl-5.28.0.tar.gz
-    sha256: 7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8
-  - type: script
-    dest-filename: configure
-    commands:
-    - exec ./configure.gnu $@
-
 - name: konsole
   buildsystem: cmake-ninja
   sources:
     - url: https://github.com/KDE/konsole/archive/v18.08.1.tar.gz
       sha256: 25eb2b7c1e48ee5e62160bde835be8e8e15bc22c398fda20d1103a4ef9cef8b6
       type: archive
-
-- name: ghostscript # required for including .eps graphics
-  config-opts:
-  - --disable-cups
-  build-options:
-    ldflags: -L/app/lib
-  sources:
-  - type: archive
-    url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/ghostscript-9.26.tar.xz
-    sha256: 90ed475f37584f646e9ef829932b2525d5c6fc2e0147e8d611bc50aa0e718598
+      
