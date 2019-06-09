@@ -34,8 +34,8 @@ modules:
   buildsystem: cmake-ninja
   sources:
     - type: archive
-      url: https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz
-      sha256: 3dc787c1bb6023ba846c2a0d9b1f6e179f1cd255172bde9eb75b01f1e6c7d71a
+      url: https://github.com/uclouvain/openjpeg/archive/v2.3.1.tar.gz
+      sha256: 63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9
 
 - name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
@@ -45,8 +45,8 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.71.0.tar.xz
-      sha256: badbecd2dddf63352fd85ec08a9c2ed122fdadacf2a34fcb4cc227c4d01f2cf9
+      url: https://poppler.freedesktop.org/poppler-0.77.0.tar.xz
+      sha256: 7267eb4cbccd64a58244b8211603c1c1b6bf32c7f6a4ced2642865346102f36b
 
 - name: texstudio
   buildsystem: qmake
@@ -55,8 +55,8 @@ modules:
     - /mkspecs
   sources:
     - type: archive
-      url: https://github.com/texstudio-org/texstudio/archive/2.12.14.tar.gz
-      sha256: 61df71f368bbf21f865645534f63840fd48dbd2996d6d0188aa26d3b647fede0
+      url: https://github.com/texstudio-org/texstudio/archive/2.12.16.tar.gz
+      sha256: a14b8912bfd15d982cfbe5f00deed37ca85fb6e38d3aa0c2dac23b4ecaab0984
     - type: patch
       path: konsole.patch
   post-install:
@@ -65,7 +65,7 @@ modules:
 - name: konsole
   buildsystem: cmake-ninja
   sources:
-    - url: https://github.com/KDE/konsole/archive/v19.04.1.tar.gz
-      sha256: 4be256e4aa19367f46dd04957b27f4f63dc3137590437f565aae651b59078a8a
+    - url: https://github.com/KDE/konsole/archive/v19.04.2.tar.gz
+      sha256: f77c82364d885e28b74323519287bf1d04e8ef0aa4bbec06da38e694cf6b9c3b
       type: archive
       
