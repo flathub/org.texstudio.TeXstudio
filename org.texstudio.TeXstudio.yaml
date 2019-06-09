@@ -65,7 +65,7 @@ modules:
 - name: konsole
   buildsystem: cmake-ninja
   sources:
-    - url: https://github.com/KDE/konsole/archive/v18.08.1.tar.gz
-      sha256: 25eb2b7c1e48ee5e62160bde835be8e8e15bc22c398fda20d1103a4ef9cef8b6
+    - url: https://github.com/KDE/konsole/archive/v19.04.1.tar.gz
+      sha256: 4be256e4aa19367f46dd04957b27f4f63dc3137590437f565aae651b59078a8a
       type: archive
       
