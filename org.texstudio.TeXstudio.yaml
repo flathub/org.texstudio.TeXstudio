@@ -75,4 +75,16 @@ modules:
     - url: https://github.com/KDE/konsole/archive/v19.04.2.tar.gz
       sha256: f77c82364d885e28b74323519287bf1d04e8ef0aa4bbec06da38e694cf6b9c3b
       type: archive
-      
+
+- name: languagetool
+  buildsystem: simple
+  build-commands:
+    - mkdir /app/languagetool
+    - cp -r * /app/languagetool
+  sources:
+    - url: https://languagetool.org/download/LanguageTool-4.6.zip
+      type: archive
+      sha256: 5fd82f2cae2254c682e603a8969a2af292c72c576b2db52dd680f0ec06abce3d
+  cleanup:
+    - /app/languagetool/testrules.*
+    - /app/languagetool/languagetool-commandline.jar
