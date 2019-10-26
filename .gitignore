@@ -1,0 +1,2 @@
+# ignore output of flatpak-builder command
+.flatpak-builder/
