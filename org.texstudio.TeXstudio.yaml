@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.12'
+runtime-version: '5.13'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.texlive
@@ -52,8 +52,8 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.77.0.tar.xz
-      sha256: 7267eb4cbccd64a58244b8211603c1c1b6bf32c7f6a4ced2642865346102f36b
+      url: https://poppler.freedesktop.org/poppler-0.82.0.tar.xz
+      sha256: 234f8e573ea57fb6a008e7c1e56bfae1af5d1adf0e65f47555e1ae103874e4df
 
 - name: texstudio
   buildsystem: qmake
@@ -72,8 +72,8 @@ modules:
 - name: konsole
   buildsystem: cmake-ninja
   sources:
-    - url: https://github.com/KDE/konsole/archive/v19.04.2.tar.gz
-      sha256: f77c82364d885e28b74323519287bf1d04e8ef0aa4bbec06da38e694cf6b9c3b
+    - url: https://github.com/KDE/konsole/archive/v19.08.2.tar.gz
+      sha256: 93fceb0e8b031f27eb9764ea3d5c663c227de952ea90ebcafa7a3bcabcb25283
       type: archive
 
 - name: languagetool
@@ -82,9 +82,9 @@ modules:
     - mkdir /app/languagetool
     - cp -r * /app/languagetool
   sources:
-    - url: https://languagetool.org/download/LanguageTool-4.6.zip
+    - url: https://github.com/languagetool-org/languagetool/archive/v4.7.tar.gz
       type: archive
-      sha256: 5fd82f2cae2254c682e603a8969a2af292c72c576b2db52dd680f0ec06abce3d
+      sha256: 224fbc7e3c6973cf63ee5b9ad9392b505c9294238f4d3a387d3c41b7b9e556e1
   cleanup:
     - /app/languagetool/testrules.*
     - /app/languagetool/languagetool-commandline.jar
