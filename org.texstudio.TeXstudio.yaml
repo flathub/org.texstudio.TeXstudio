@@ -11,7 +11,7 @@ rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
 #  - --socket=wayland (requires https://bugreports.qt.io/browse/QTBUG-68619 to be fixed)
-  - --socket=fallback-x11
+  - --socket=x11
   - --share=ipc
   - --device=dri
   - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
