@@ -37,12 +37,7 @@ modules:
   build-commands:
     - /usr/lib/sdk/openjdk11/install.sh
 
-- name: openjpeg # build dependency of poppler
-  buildsystem: cmake-ninja
-  sources:
-    - type: archive
-      url: https://github.com/uclouvain/openjpeg/archive/v2.3.1.tar.gz
-      sha256: 63f5a4713ecafc86de51bfad89cc07bb788e9bba24ebbf0c4ca637621aadb6a9
+- shared-modules/openjpeg/openjpeg.json
 
 - name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
