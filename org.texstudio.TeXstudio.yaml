@@ -37,8 +37,6 @@ modules:
 - name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
   config-opts:
-    - -DCMAKE_BUILD_TYPE=release
-    - -DENABLE_QT5:BOOL=true
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
