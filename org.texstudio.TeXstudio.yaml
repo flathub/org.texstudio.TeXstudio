@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.12'
+runtime-version: '5.14'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.texlive
@@ -59,8 +59,6 @@ modules:
     - type: archive
       url: https://github.com/texstudio-org/texstudio/archive/2.12.22.tar.gz
       sha256: 101949620d055ab0224ecbb48b0ad38a7403f179832a28b86e4cb16f4c2adc46
-    - type: patch
-      path: konsole.patch
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
 
