@@ -65,8 +65,8 @@ modules:
 - name: konsole
   buildsystem: cmake-ninja
   sources:
-    - url: https://github.com/KDE/konsole/archive/v19.04.2.tar.gz
-      sha256: f77c82364d885e28b74323519287bf1d04e8ef0aa4bbec06da38e694cf6b9c3b
+    - url: https://github.com/KDE/konsole/archive/v20.08.0.tar.gz
+      sha256: 0eab1d6a3ffba3084cb4ee5977a63e1fd2c28f06a6d934e9b29eebbf969c4137
       type: archive
 
 - name: languagetool
