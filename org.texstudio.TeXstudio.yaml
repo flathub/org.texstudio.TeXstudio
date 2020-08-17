@@ -4,7 +4,7 @@ runtime-version: '5.14'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.texlive
-  - org.freedesktop.Sdk.Extension.openjdk11
+  - org.freedesktop.Sdk.Extension.openjdk
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
