@@ -10,19 +10,14 @@ rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
-#  - --socket=wayland (requires https://bugreports.qt.io/browse/QTBUG-68619 to be fixed)
+#  - --socket=wayland
   - --socket=x11
   - --share=ipc
   - --device=dri
-  - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
-  - --filesystem=xdg-config/kdeglobals:ro # gives application access to kdeglobals
-  - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
-  - --share=network # required for LanguageTool
-  - --env=TMPDIR=/var/tmp # for lockfiles
-  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux
+  - --filesystem=host
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
-  - --env=LC_ALL=C # works around LuaLaTex issue with locale
-  - --env=TEXINPUTS=.:~/texmf/:
+  - --env=SESSION_MANAGER= # required to avoid Qt warning
+  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux
 build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
