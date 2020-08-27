@@ -51,7 +51,7 @@ modules:
   sources:
     - type: archive
       url: https://github.com/texstudio-org/texstudio/archive/3.0.0.tar.gz
-      sha256: df5d2d76a1bff6e93ce796e87e90c5eca6d9b5b11ea94c861b398d919056aff5
+      sha256: c1f704f84b2007621c5f8ec7fd3b4cf96693f98fd25724ee8fe9c3dccdc7ab2a
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
 
