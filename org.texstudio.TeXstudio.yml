@@ -1,17 +1,20 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.14'
+runtime-version: '5.15'
 sdk: org.kde.Sdk
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.texlive
-  - org.freedesktop.Sdk.Extension.openjdk
+add-extensions:
+  org.freedesktop.Sdk.Extension.texlive
+    directory: extensions
+    version: '20.08'
+    subdirectories: true
+    no-autodownload: true
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
   - --device=dri
-  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux
+  - --env=PATH=app/extension/bin:app/extension/bin/x86_64-linux:$PATH
   - --env=SESSION_MANAGER= # required to avoid Qt warning
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
   - --filesystem=host
@@ -22,15 +25,6 @@ build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
-- name: texlive
-  buildsystem: simple
-  build-commands:
-    - /usr/lib/sdk/texlive/install.sh
-
-- name: openjdk
-  buildsystem: simple
-  build-commands:
-    - /usr/lib/sdk/openjdk/install.sh
 
 - shared-modules/openjpeg/openjpeg.json
 
@@ -43,6 +37,13 @@ modules:
       url: https://poppler.freedesktop.org/poppler-20.08.0.tar.xz
       sha256: ae65fef04bbf63259a6352e7b620719115d4fb97f5079b0b8b00a8eb0c86eca5
 
+- name: konsole
+  buildsystem: cmake-ninja
+  sources:
+    - url: https://github.com/KDE/konsole/archive/v20.08.0.tar.gz
+      sha256: 0eab1d6a3ffba3084cb4ee5977a63e1fd2c28f06a6d934e9b29eebbf969c4137
+      type: archive
+
 - name: texstudio
   buildsystem: qmake
   cleanup-platform:
@@ -54,23 +55,4 @@ modules:
       sha256: c1f704f84b2007621c5f8ec7fd3b4cf96693f98fd25724ee8fe9c3dccdc7ab2a
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/metainfo/texstudio.appdata.xml
-
-- name: konsole
-  buildsystem: cmake-ninja
-  sources:
-    - url: https://github.com/KDE/konsole/archive/v20.08.0.tar.gz
-      sha256: 0eab1d6a3ffba3084cb4ee5977a63e1fd2c28f06a6d934e9b29eebbf969c4137
-      type: archive
-
-- name: languagetool
-  buildsystem: simple
-  build-commands:
-    - mkdir /app/languagetool
-    - cp -r * /app/languagetool
-  sources:
-    - url: https://languagetool.org/download/LanguageTool-5.0.zip
-      type: archive
-      sha256: 212eb275cf9df8b6f49d8ce2bb386246081be7f01d907577fbd09a9f27055628
-  cleanup:
-    - /app/languagetool/testrules.*
-    - /app/languagetool/languagetool-commandline.jar
+    - install -d /app/extensions
