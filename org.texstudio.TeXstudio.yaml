@@ -77,9 +77,9 @@ modules:
     - mkdir /app/languagetool
     - cp -r * /app/languagetool
   sources:
-    - url: https://languagetool.org/download/LanguageTool-4.6.zip
+    - url: https://languagetool.org/download/LanguageTool-5.1.zip
       type: archive
-      sha256: 5fd82f2cae2254c682e603a8969a2af292c72c576b2db52dd680f0ec06abce3d
+      sha256: c91ff43d54c863a9389a81c5fa1a6723041b982435f220e9c2c4db843b66d1b6
   cleanup:
     - /app/languagetool/testrules.*
     - /app/languagetool/languagetool-commandline.jar
