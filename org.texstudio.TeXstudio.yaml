@@ -47,8 +47,8 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.77.0.tar.xz
-      sha256: 7267eb4cbccd64a58244b8211603c1c1b6bf32c7f6a4ced2642865346102f36b
+      url: https://poppler.freedesktop.org/poppler-20.11.0.tar.xz
+      sha256: 021557074516492375c2bb4226a413aad431159e9177f9f14dff4159d2723b14
 
 - name: texstudio
   buildsystem: qmake
