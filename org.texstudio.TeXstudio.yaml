@@ -15,6 +15,7 @@ finish-args:
   - --share=ipc
   - --device=dri
   - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
+  - --filesystem=/var/usrlocal # for custom TeXLive installs; Silverblue points /usr/local to /var/usrlocal
   - --filesystem=xdg-config/kdeglobals:ro # gives application access to kdeglobals
   - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
