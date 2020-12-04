@@ -2,8 +2,13 @@ app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
 runtime-version: '5.12'
 sdk: org.kde.Sdk
+add-extensions:
+  org.freedesktop.Sdk.Extension.texlive:
+    directory: texlive
+    subdirectories: true
+    autodelete: true
+    version: "19.08"
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.texlive
   - org.freedesktop.Sdk.Extension.openjdk11
 command: texstudio
 rename-icon: texstudio
@@ -19,7 +24,7 @@ finish-args:
   - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
   - --env=TMPDIR=/var/tmp # for lockfiles
-  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux
+  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux:/app/texlive/bin/x86_64-linux
   - --env=TEXMFCACHE=$XDG_CACHE_HOME
   - --env=LC_ALL=C # works around LuaLaTex issue with locale
   - --env=TEXINPUTS=.:~/texmf/:
@@ -27,11 +32,6 @@ build-options:
   env:
     LD_LIBRARY_PATH: /app/lib:/app/lib64
 modules:
-- name: texlive
-  buildsystem: simple
-  build-commands:
-    - /usr/lib/sdk/texlive/install.sh
-
 - name: openjdk
   buildsystem: simple
   build-commands:
@@ -83,3 +83,8 @@ modules:
   cleanup:
     - /app/languagetool/testrules.*
     - /app/languagetool/languagetool-commandline.jar
+
+- name: texlive-extension
+  buildsystem: simple
+  build-commands:
+    - mkdir /app/texlive
