@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.12'
+runtime-version: '5.15'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.texlive
@@ -10,7 +10,7 @@ rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
-#  - --socket=wayland (requires https://bugreports.qt.io/browse/QTBUG-68619 to be fixed)
+  - --socket=wayland
   - --socket=x11
   - --share=ipc
   - --device=dri
@@ -37,8 +37,6 @@ modules:
   build-commands:
     - /usr/lib/sdk/openjdk11/install.sh
 
-- shared-modules/openjpeg/openjpeg.json
-
 - name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
   config-opts:
@@ -47,8 +45,8 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.77.0.tar.xz
-      sha256: 7267eb4cbccd64a58244b8211603c1c1b6bf32c7f6a4ced2642865346102f36b
+      url: https://poppler.freedesktop.org/poppler-21.01.0.tar.xz
+      sha256: 016dde34e5f868ea98a32ca99b643325a9682281500942b7113f4ec88d20e2f3
 
 - name: texstudio
   buildsystem: qmake
@@ -57,18 +55,18 @@ modules:
     - /mkspecs
   sources:
     - type: archive
-      url: https://github.com/texstudio-org/texstudio/archive/2.12.16.tar.gz
-      sha256: a14b8912bfd15d982cfbe5f00deed37ca85fb6e38d3aa0c2dac23b4ecaab0984
+      url: https://github.com/texstudio-org/texstudio/archive/3.0.4.tar.gz
+      sha256: eaa8d67ee5894692c5c39880ab0fcbc4fb42fd5e22242e5c192dfe025a208a36
     - type: patch
       path: konsole.patch
   post-install:
-    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
+    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/metainfo/texstudio.appdata.xml
 
 - name: konsole
   buildsystem: cmake-ninja
   sources:
-    - url: https://github.com/KDE/konsole/archive/v19.04.2.tar.gz
-      sha256: f77c82364d885e28b74323519287bf1d04e8ef0aa4bbec06da38e694cf6b9c3b
+    - url: https://github.com/KDE/konsole/archive/v20.12.1.tar.gz
+      sha256: 3a3f5ef8715e19dccb7aca06fea6bb9b4c26fac5988b3d0c0f133d651c49fc15
       type: archive
 
 - name: languagetool
@@ -77,9 +75,9 @@ modules:
     - mkdir /app/languagetool
     - cp -r * /app/languagetool
   sources:
-    - url: https://languagetool.org/download/LanguageTool-4.6.zip
+    - url: https://languagetool.org/download/LanguageTool-5.2.zip
       type: archive
-      sha256: 5fd82f2cae2254c682e603a8969a2af292c72c576b2db52dd680f0ec06abce3d
+      sha256: e7776143c76a88449d451897cedc9f3ce698450e25bce25d4ed52457fa2d0cde
   cleanup:
     - /app/languagetool/testrules.*
     - /app/languagetool/languagetool-commandline.jar
