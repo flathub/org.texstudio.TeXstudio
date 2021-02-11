@@ -43,7 +43,4 @@ modules:
       url: https://github.com/texstudio-org/texstudio/archive/3.0.4.tar.gz
       sha256: eaa8d67ee5894692c5c39880ab0fcbc4fb42fd5e22242e5c192dfe025a208a36
     - type: patch
-      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
-  post-install:
-    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/metainfo/texstudio.appdata.xml
-    
+      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch    

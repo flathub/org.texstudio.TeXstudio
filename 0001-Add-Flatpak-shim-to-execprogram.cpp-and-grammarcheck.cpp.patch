@@ -16,7 +16,7 @@ index f5ca91be..ef54a2a3 100644
   */
  void ExecProgram::setProgramAndArguments(const QString &shellCommandLine)
  {
-+    QString shellCommandLineShim("flatpak-spawn --host "+shellCommandLine);
++	QString shellCommandLineShim("flatpak-spawn --host "+shellCommandLine);
  	static const QRegularExpression rxSpaceSep("\\s+");
  	Q_ASSERT(rxSpaceSep.isValid());
  	static const QRegularExpression rxArgPiece(
