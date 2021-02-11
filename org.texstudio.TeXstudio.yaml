@@ -2,39 +2,26 @@ app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
 runtime-version: '5.15'
 sdk: org.kde.Sdk
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.texlive
-  - org.freedesktop.Sdk.Extension.openjdk11
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
   - --socket=wayland
-  - --socket=x11
+  - --socket=fallback-x11
   - --share=ipc
   - --device=dri
-  - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
+  - --filesystem=host # required to open files
+  - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
+  - --allow=devel # needed for flatpak-spawn --host
+  - --socket=session-bus # needed for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
-  - --env=TMPDIR=/var/tmp # for lockfiles
-  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux
-  - --env=TEXMFCACHE=$XDG_CACHE_HOME
-  - --env=TEXINPUTS=.:~/texmf/:
-build-options:
-  env:
-    LD_LIBRARY_PATH: /app/lib:/app/lib64
+cleanup:
+- /include
+- /lib/pkgconfig
+- /share/man
 modules:
-- name: texlive
-  buildsystem: simple
-  build-commands:
-    - /usr/lib/sdk/texlive/install.sh
-
-- name: openjdk
-  buildsystem: simple
-  build-commands:
-    - /usr/lib/sdk/openjdk11/install.sh
-
 - name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
   config-opts:
@@ -45,7 +32,7 @@ modules:
     - type: archive
       url: https://poppler.freedesktop.org/poppler-21.01.0.tar.xz
       sha256: 016dde34e5f868ea98a32ca99b643325a9682281500942b7113f4ec88d20e2f3
-
+    
 - name: texstudio
   buildsystem: qmake
   cleanup-platform:
@@ -56,26 +43,7 @@ modules:
       url: https://github.com/texstudio-org/texstudio/archive/3.0.4.tar.gz
       sha256: eaa8d67ee5894692c5c39880ab0fcbc4fb42fd5e22242e5c192dfe025a208a36
     - type: patch
-      path: konsole.patch
+      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
   post-install:
     - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/metainfo/texstudio.appdata.xml
-
-- name: konsole
-  buildsystem: cmake-ninja
-  sources:
-    - url: https://github.com/KDE/konsole/archive/v20.12.1.tar.gz
-      sha256: 3a3f5ef8715e19dccb7aca06fea6bb9b4c26fac5988b3d0c0f133d651c49fc15
-      type: archive
-
-- name: languagetool
-  buildsystem: simple
-  build-commands:
-    - mkdir /app/languagetool
-    - cp -r * /app/languagetool
-  sources:
-    - url: https://languagetool.org/download/LanguageTool-5.2.zip
-      type: archive
-      sha256: e7776143c76a88449d451897cedc9f3ce698450e25bce25d4ed52457fa2d0cde
-  cleanup:
-    - /app/languagetool/testrules.*
-    - /app/languagetool/languagetool-commandline.jar
+    
