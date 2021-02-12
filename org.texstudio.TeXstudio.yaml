@@ -30,17 +30,26 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-21.01.0.tar.xz
-      sha256: 016dde34e5f868ea98a32ca99b643325a9682281500942b7113f4ec88d20e2f3
-    
+      url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
+      sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
+      x-checker-data:
+        type: anitya
+        project-id: 3686
+        url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+        
 - name: texstudio
   buildsystem: qmake
   cleanup-platform:
     - /bin
     - /mkspecs
   sources:
-    - type: archive
-      url: https://github.com/texstudio-org/texstudio/archive/3.0.4.tar.gz
-      sha256: eaa8d67ee5894692c5c39880ab0fcbc4fb42fd5e22242e5c192dfe025a208a36
+    - type: git # use git to determine release date for appdata from version 3.0.5 on
+      url: https://github.com/texstudio-org/texstudio
+      tag: 3.0.4
+      commit: a6505b416a5abd8d363bd32a538152c8fffb785e
+      x-checker-data:
+        type: anitya
+        project-id: 6239
+        tag-template: $version
     - type: patch
-      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch    
+      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
