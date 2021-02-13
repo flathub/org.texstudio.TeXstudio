@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.12'
+runtime-version: '5.15'
 sdk: org.kde.Sdk
 add-extensions:
   org.freedesktop.Sdk.Extension.texlive:
@@ -8,37 +8,26 @@ add-extensions:
     subdirectories: true
     autodelete: true
     version: "19.08"
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.openjdk11
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
-#  - --socket=wayland (requires https://bugreports.qt.io/browse/QTBUG-68619 to be fixed)
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
   - --share=ipc
   - --device=dri
-  - --filesystem=host # lets LuaLaTeX etc. write output files, even if the document is stored outside of ~
-  - --filesystem=xdg-config/kdeglobals:ro # gives application access to kdeglobals
+  - --filesystem=host # required to open files
+  - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
+  - --allow=devel # needed for flatpak-spawn --host
+  - --socket=session-bus # needed for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
-  - --env=TMPDIR=/var/tmp # for lockfiles
-  - --env=PATH=/app/jre/bin:/usr/bin:/app/bin:/app/bin/x86_64-linux:/app/texlive/bin/x86_64-linux
-  - --env=TEXMFCACHE=$XDG_CACHE_HOME
-  - --env=LC_ALL=C # works around LuaLaTex issue with locale
-  - --env=TEXINPUTS=.:~/texmf/:
-build-options:
-  env:
-    LD_LIBRARY_PATH: /app/lib:/app/lib64
+cleanup:
+- /include
+- /lib/pkgconfig
+- /share/man
 modules:
-- name: openjdk
-  buildsystem: simple
-  build-commands:
-    - /usr/lib/sdk/openjdk11/install.sh
-
-- shared-modules/openjpeg/openjpeg.json
-
 - name: poppler # build dependency of TeXstudio
   buildsystem: cmake-ninja
   config-opts:
@@ -47,42 +36,29 @@ modules:
     - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
   sources:
     - type: archive
-      url: https://poppler.freedesktop.org/poppler-0.77.0.tar.xz
-      sha256: 7267eb4cbccd64a58244b8211603c1c1b6bf32c7f6a4ced2642865346102f36b
-
+      url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
+      sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
+      x-checker-data:
+        type: anitya
+        project-id: 3686
+        url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+        
 - name: texstudio
   buildsystem: qmake
   cleanup-platform:
     - /bin
     - /mkspecs
   sources:
-    - type: archive
-      url: https://github.com/texstudio-org/texstudio/archive/2.12.16.tar.gz
-      sha256: a14b8912bfd15d982cfbe5f00deed37ca85fb6e38d3aa0c2dac23b4ecaab0984
+    - type: git # use git to determine release date for appdata from version 3.0.5 on
+      url: https://github.com/texstudio-org/texstudio
+      tag: 3.0.4
+      commit: a6505b416a5abd8d363bd32a538152c8fffb785e
+      x-checker-data:
+        type: anitya
+        project-id: 6239
+        tag-template: $version
     - type: patch
-      path: konsole.patch
-  post-install:
-    - sed -i 's|texstudio.desktop|org.texstudio.TeXstudio.desktop|g' /app/share/appdata/texstudio.appdata.xml
-
-- name: konsole
-  buildsystem: cmake-ninja
-  sources:
-    - url: https://github.com/KDE/konsole/archive/v19.04.2.tar.gz
-      sha256: f77c82364d885e28b74323519287bf1d04e8ef0aa4bbec06da38e694cf6b9c3b
-      type: archive
-
-- name: languagetool
-  buildsystem: simple
-  build-commands:
-    - mkdir /app/languagetool
-    - cp -r * /app/languagetool
-  sources:
-    - url: https://languagetool.org/download/LanguageTool-4.6.zip
-      type: archive
-      sha256: 5fd82f2cae2254c682e603a8969a2af292c72c576b2db52dd680f0ec06abce3d
-  cleanup:
-    - /app/languagetool/testrules.*
-    - /app/languagetool/languagetool-commandline.jar
+      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
 
 - name: texlive-extension
   buildsystem: simple
