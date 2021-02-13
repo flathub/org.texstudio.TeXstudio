@@ -18,38 +18,38 @@ finish-args:
   - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
 cleanup:
-- /include
-- /lib/pkgconfig
-- /share/man
+  - /include
+  - /lib/pkgconfig
+  - /share/man
 modules:
-- name: poppler # build dependency of TeXstudio
-  buildsystem: cmake-ninja
-  config-opts:
-    - -DCMAKE_BUILD_TYPE=release
-    - -DENABLE_QT5:BOOL=true
-    - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
-  sources:
-    - type: archive
-      url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
-      sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
-      x-checker-data:
-        type: anitya
-        project-id: 3686
-        url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
-        
-- name: texstudio
-  buildsystem: qmake
-  cleanup-platform:
-    - /bin
-    - /mkspecs
-  sources:
-    - type: git # use git to determine release date for appdata from version 3.0.5 on
-      url: https://github.com/texstudio-org/texstudio
-      tag: 3.0.4
-      commit: a6505b416a5abd8d363bd32a538152c8fffb785e
-      x-checker-data:
-        type: anitya
-        project-id: 6239
-        tag-template: $version
-    - type: patch
-      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
+  - name: poppler # build dependency of TeXstudio
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=release
+      - -DENABLE_QT5:BOOL=true
+      - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
+    sources:
+      - type: archive
+        url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
+        sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
+        x-checker-data:
+          type: anitya
+          project-id: 3686
+          url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+
+  - name: texstudio
+    buildsystem: qmake
+    cleanup-platform:
+      - /bin
+      - /mkspecs
+    sources:
+      - type: git # use git to determine release date for appdata from version 3.0.5 on
+        url: https://github.com/texstudio-org/texstudio
+        tag: 3.0.5rc2
+        commit: 78b1b0c34604cb82e1ada7172eb972551d64055b
+        x-checker-data:
+          type: anitya
+          project-id: 6239
+          tag-template: $version
+      - type: patch
+        path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
