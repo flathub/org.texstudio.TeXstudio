@@ -7,7 +7,7 @@ add-extensions:
     directory: texlive
     subdirectories: true
     autodelete: true
-    version: "19.08"
+    version: "20.08"
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
@@ -23,6 +23,7 @@ finish-args:
   - --socket=session-bus # needed for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
   - --share=network # required for LanguageTool
+  - --env=PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux # add paths of TeXlive Flatpak extension binaries
 cleanup:
 - /include
 - /lib/pkgconfig
@@ -58,7 +59,7 @@ modules:
         project-id: 6239
         tag-template: $version
     - type: patch
-      path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
+      path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
 
 - name: texlive-extension
   buildsystem: simple
