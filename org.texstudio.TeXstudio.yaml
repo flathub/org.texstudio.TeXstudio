@@ -15,7 +15,7 @@ finish-args:
   - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
   - --allow=devel # needed for flatpak-spawn --host
   - --socket=session-bus # needed for flatpak-spawn --host
-  - --talk-name=com.canonical.AppMenu.Registrar # gives application access to dbus menu
+  - --talk-name=com.canonical.AppMenu.Registrar # required for global menu
   - --share=network # required for LanguageTool
 cleanup:
   - /include
@@ -25,9 +25,7 @@ modules:
   - name: poppler # build dependency of TeXstudio
     buildsystem: cmake-ninja
     config-opts:
-      - -DCMAKE_BUILD_TYPE=release
-      - -DENABLE_QT5:BOOL=true
-      - -DCMAKE_INSTALL_LIBDIR:PATH=/app/lib
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
@@ -53,3 +51,8 @@ modules:
           tag-template: $version
       - type: patch
         path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
+      - type: file
+        path: changelog2appdata.sh
+      - type: shell
+        commands:
+          - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
