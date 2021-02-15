@@ -1,0 +1,131 @@
+From 5229941659c1ac6ccfc8c2c463fff78a1a1ed9ab Mon Sep 17 00:00:00 2001
+From: Alexander Wilms <f.alexander.wilms@gmail.com>
+Date: Sat, 13 Feb 2021 12:55:37 +0100
+Subject: [PATCH] Add Flatpak shim, use TeX Live Flatpak extension if available
+
+---
+ src/execprogram.cpp  | 18 +++++++++++++-----
+ src/execprogram.h    |  5 +++--
+ src/grammarcheck.cpp |  2 +-
+ src/texstudio.cpp    |  3 ++-
+ 4 files changed, 19 insertions(+), 9 deletions(-)
+
+diff --git a/src/execprogram.cpp b/src/execprogram.cpp
+index f5ca91be..ff906dd9 100644
+--- a/src/execprogram.cpp
++++ b/src/execprogram.cpp
+@@ -10,9 +10,10 @@ ExecProgram::ExecProgram(void) :
+ {
+ }
+ 
+-ExecProgram::ExecProgram(const QString &shellCommandLine, const QString &additionalSearchPaths, const QString &workingDirectory) :
++ExecProgram::ExecProgram(const QString &shellCommandLine, const QString &additionalSearchPaths, const QString &workingDirectory, const bool &isBuildCommand) :
+ 	m_additionalSearchPaths(additionalSearchPaths),
+ 	m_workingDirectory(workingDirectory),
++	m_isBuildCommand(isBuildCommand),
+ #ifdef Q_OS_WIN
+ 	m_winProcModifier(nullptr),
+ #endif
+@@ -22,7 +23,7 @@ ExecProgram::ExecProgram(const QString &shellCommandLine, const QString &additio
+ 	setProgramAndArguments(shellCommandLine);
+ }
+ 
+-ExecProgram::ExecProgram(const QString &progName, const QStringList &arguments, const QString &additionalSearchPaths, const QString &workingDirectory) :
++ExecProgram::ExecProgram(const QString &progName, const QStringList &arguments, const QString &additionalSearchPaths, const QString &workingDirectory, const bool &isBuildCommand) :
+ 	m_program(progName),
+ 	m_arguments(arguments),
+ 	m_additionalSearchPaths(additionalSearchPaths),
+@@ -50,6 +51,13 @@ ExecProgram::ExecProgram(const QString &progName, const QStringList &arguments,
+  */
+ void ExecProgram::setProgramAndArguments(const QString &shellCommandLine)
+ {
++	QString shellCommandLineShim;
++	if(m_isBuildCommand && QDir("/app/texlive/bin").exists())
++	{
++		shellCommandLineShim = shellCommandLine;
++	} else {
++		shellCommandLineShim = "flatpak-spawn --host "+shellCommandLine;
++	}
+ 	static const QRegularExpression rxSpaceSep("\\s+");
+ 	Q_ASSERT(rxSpaceSep.isValid());
+ 	static const QRegularExpression rxArgPiece(
+@@ -62,7 +70,7 @@ void ExecProgram::setProgramAndArguments(const QString &shellCommandLine)
+ 	);
+ 	Q_ASSERT(rxArgPiece.isValid());
+ 
+-	int shellLineLen = shellCommandLine.length();
++	int shellLineLen = shellCommandLineShim.length();
+ 	int shellLineOffset = 0;
+ 	QStringList arguments;
+ 	QString argText;
+@@ -72,7 +80,7 @@ void ExecProgram::setProgramAndArguments(const QString &shellCommandLine)
+ 			break;
+ 		}
+ 		QRegularExpressionMatch matchSpaceSep = rxSpaceSep.match(
+-			shellCommandLine,
++			shellCommandLineShim,
+ 			shellLineOffset,
+ 			QRegularExpression::NormalMatch,
+ 			QRegularExpression::AnchoredMatchOption
+@@ -88,7 +96,7 @@ void ExecProgram::setProgramAndArguments(const QString &shellCommandLine)
+ 			}
+ 		}
+ 		QRegularExpressionMatch matchArgPiece = rxArgPiece.match(
+-			shellCommandLine,
++			shellCommandLineShim,
+ 			shellLineOffset,
+ 			QRegularExpression::NormalMatch,
+ 			QRegularExpression::AnchoredMatchOption
+diff --git a/src/execprogram.h b/src/execprogram.h
+index e977e273..0c662b84 100644
+--- a/src/execprogram.h
++++ b/src/execprogram.h
+@@ -7,8 +7,8 @@ class ExecProgram
+ {
+ public:
+ 	ExecProgram(void);
+-	ExecProgram(const QString &shellCommandLine, const QString &additionalSearchPaths, const QString &workingDirectory = QString());
+-	ExecProgram(const QString &progName, const QStringList &arguments, const QString &additionalSearchPaths = QString(), const QString &workingDirectory = QString());
++	ExecProgram(const QString &shellCommandLine, const QString &additionalSearchPaths, const QString &workingDirectory = QString(), const bool &isBuildCommand = true);
++	ExecProgram(const QString &progName, const QStringList &arguments, const QString &additionalSearchPaths = QString(), const QString &workingDirectory = QString(), const bool &isBuildCommand = true);
+ 
+ 	bool execAndWait(void);
+ 	void execAndNoWait(QProcess &proc) const;
+@@ -19,6 +19,7 @@ public:
+ 	QStringList m_arguments;
+ 	QString m_additionalSearchPaths;
+ 	QString m_workingDirectory;
++  bool m_isBuildCommand;
+ #ifdef Q_OS_WIN
+ 	QProcess::CreateProcessArgumentModifier m_winProcModifier;
+ #endif
+diff --git a/src/grammarcheck.cpp b/src/grammarcheck.cpp
+index 2d2b3053..a3be6249 100644
+--- a/src/grammarcheck.cpp
++++ b/src/grammarcheck.cpp
+@@ -645,7 +645,7 @@ void GrammarCheckLanguageToolJSON::tryToStart()
+     connect(javaProcess, SIGNAL(finished(int, QProcess::ExitStatus)), javaProcess, SLOT(deleteLater()));
+     connect(this, SIGNAL(destroyed()), javaProcess, SLOT(deleteLater()));
+ 
+-    javaProcess->start(quoteSpaces(javaPath)+ " -cp " + quoteSpaces(ltPath) + " " + ltArguments);
++    javaProcess->start("flatpak-spawn --host" + quoteSpaces(javaPath)+ " -cp " + quoteSpaces(ltPath) + " " + ltArguments);
+     javaProcess->waitForStarted(500);
+     javaProcess->waitForReadyRead(500);
+     errorText=javaProcess->readAllStandardError();
+diff --git a/src/texstudio.cpp b/src/texstudio.cpp
+index ee9849e6..74ed5e72 100644
+--- a/src/texstudio.cpp
++++ b/src/texstudio.cpp
+@@ -6183,7 +6183,8 @@ void Texstudio::openExternalTerminal(void)
+ 	ExecProgram execProgram(
+ 		commandLine,
+ 		"",
+-		QFileInfo(fileCurrent).absolutePath()
++		QFileInfo(fileCurrent).absolutePath(),
++		false
+ 	);
+ #ifdef Q_OS_WIN
+ 	execProgram.m_winProcModifier = [] (QProcess::CreateProcessArguments *args) {
+-- 
+2.30.1
+

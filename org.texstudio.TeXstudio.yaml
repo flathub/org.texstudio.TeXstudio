@@ -2,6 +2,12 @@ app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
 runtime-version: '5.15'
 sdk: org.kde.Sdk
+add-extensions:
+  org.freedesktop.Sdk.Extension.texlive:
+    directory: texlive
+    subdirectories: true
+    autodelete: true
+    version: "20.08"
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
@@ -17,42 +23,48 @@ finish-args:
   - --socket=session-bus # needed for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # required for global menu
   - --share=network # required for LanguageTool
+  - --env=PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux # add paths of TeXlive Flatpak extension binaries
 cleanup:
   - /include
   - /lib/pkgconfig
   - /share/man
 modules:
-  - name: poppler # build dependency of TeXstudio
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    sources:
-      - type: archive
-        url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
-        sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
-        x-checker-data:
-          type: anitya
-          project-id: 3686
-          url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+- name: texlive-extension
+  buildsystem: simple
+  build-commands:
+    - mkdir /app/texlive
+    
+- name: poppler # build dependency of TeXstudio
+  buildsystem: cmake-ninja
+  config-opts:
+    - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+  sources:
+    - type: archive
+      url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
+      sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
+      x-checker-data:
+        type: anitya
+        project-id: 3686
+        url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
 
-  - name: texstudio
-    buildsystem: qmake
-    cleanup-platform:
-      - /bin
-      - /mkspecs
-    sources:
-      - type: git # use git to determine release date for appdata from version 3.0.5 on
-        url: https://github.com/texstudio-org/texstudio
-        tag: 3.0.5
-        commit: 78b1b0c34604cb82e1ada7172eb972551d64055b
-        x-checker-data:
-          type: anitya
-          project-id: 6239
-          tag-template: $version
-      - type: patch
-        path: 0001-Add-Flatpak-shim-to-execprogram.cpp-and-grammarcheck.cpp.patch
-      - type: file
-        path: changelog2appdata.sh
-      - type: shell
-        commands:
-          - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
+- name: texstudio
+  buildsystem: qmake
+  cleanup-platform:
+    - /bin
+    - /mkspecs
+  sources:
+    - type: git # use git to determine release date for appdata
+      url: https://github.com/texstudio-org/texstudio
+      tag: 3.0.5
+      commit: 78b1b0c34604cb82e1ada7172eb972551d64055b
+      x-checker-data:
+        type: anitya
+        project-id: 6239
+        tag-template: $version
+    - type: patch
+      path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
+    - type: file
+      path: changelog2appdata.sh
+    - type: shell
+      commands:
+        - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
