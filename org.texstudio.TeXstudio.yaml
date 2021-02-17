@@ -7,7 +7,7 @@ add-extensions:
     directory: texlive
     subdirectories: true
     autodelete: true
-    version: "20.08"
+    version: '20.08'
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.appdata.xml
@@ -29,45 +29,48 @@ cleanup:
   - /lib/pkgconfig
   - /share/man
 modules:
-- name: texlive-extension
-  buildsystem: simple
-  build-commands:
-    - mkdir /app/texlive
+  - name: texlive-extension
+    buildsystem: simple
+    build-commands:
+      - mkdir /app/texlive
 
-- name: poppler # build dependency of TeXstudio
-  buildsystem: cmake-ninja
-  config-opts:
-    - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-  sources:
-    - type: archive
-      url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
-      sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
-      x-checker-data:
-        type: anitya
-        project-id: 3686
-        url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+  - name: poppler # build dependency of TeXstudio
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    sources:
+      - type: archive
+        url: https://poppler.freedesktop.org/poppler-21.02.0.tar.xz
+        sha256: 5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c
+        x-checker-data:
+          type: anitya
+          project-id: 3686
+          url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
 
-- name: texstudio
-  buildsystem: qmake
-  cleanup-platform:
-    - /bin
-    - /mkspecs
-  sources:
-    - type: git # use git to determine release date for appdata
-      url: https://github.com/texstudio-org/texstudio
-      tag: 3.0.5
-      commit: 78b1b0c34604cb82e1ada7172eb972551d64055b
-      x-checker-data:
-        type: anitya
-        project-id: 6239
-        tag-template: $version
-    - type: patch
-      path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
-    - type: shell
-      commands:
-        - sed -i "s|</description>|<p>Requires either TeX Live being installed on the system from your distribution's repositories or the TeX Live Flatpak which you can install by running 'flatpak install flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description>|" utilities/texstudio.appdata.xml
-    - type: file
-      path: changelog2appdata.sh
-    - type: shell
-      commands:
-        - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
+  - name: texstudio
+    buildsystem: qmake
+    cleanup-platform:
+      - /bin
+      - /mkspecs
+    sources:
+      - type: git # use git to determine release date for appdata
+        url: https://github.com/texstudio-org/texstudio
+        tag: 3.1.0
+        commit: a766fdf5e6cce54e6ba3c3dd09cba4c4e815007e
+        x-checker-data:
+          type: anitya
+          project-id: 6239
+          tag-template: $version
+      - type: patch
+        path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
+      - type: shell
+        commands:
+          - sed -i "s|</description>|<p>Requires either TeX Live being installed on
+            the system from your distribution's repositories or the TeX Live Flatpak
+            which you can install by running 'flatpak install flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description>|"
+            utilities/texstudio.appdata.xml
+      - type: file
+        path: changelog2appdata.sh
+      - type: shell
+        commands:
+          - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
