@@ -48,6 +48,8 @@ modules:
 
   - name: texstudio
     buildsystem: qmake
+    config-opts:
+      - CONFIG+=debug
     cleanup-platform:
       - /bin
       - /mkspecs
@@ -63,6 +65,9 @@ modules:
       - type: patch
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
       - type: shell
+        commands: # tests fail due to flatpak shim
+         - sed -i '/<< new ExecProgramTest()/d' src/tests/testmanager.cpp
+      - type: shell
         commands:
           - sed -i "s|</description>|<p>Requires either TeX Live being installed on
             the system from your distribution's repositories or the TeX Live Flatpak
@@ -72,4 +77,6 @@ modules:
         path: changelog2appdata.sh
       - type: shell
         commands:
-          - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
+        - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
+    post-install: # copied from https://github.com/texstudio-org/texstudio/blob/master/.github/workflows/ci.yml
+      - QT_QPA_PLATFORM=offscreen texstudio --auto-tests
