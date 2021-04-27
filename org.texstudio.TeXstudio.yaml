@@ -22,7 +22,7 @@ finish-args:
   - --talk-name=org.freedesktop.Flatpak # required for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # required for global menu
   - --share=network # required for LanguageTool
-  - --env=PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux # add paths of TeXlive Flatpak extension binaries
+  - --env=PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/app/texlive/bin/aarch64-linux # add paths of TeXlive Flatpak extension binaries
 cleanup:
   - /include
   - /lib/pkgconfig
