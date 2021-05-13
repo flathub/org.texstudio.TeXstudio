@@ -54,8 +54,8 @@ modules:
     sources:
       - type: git # use git to determine release date for appdata
         url: https://github.com/texstudio-org/texstudio
-        tag: 3.1.1
-        commit: a670d4636f2c1575fa480824377ef28a05064239
+        tag: 3.1.2
+        commit: 1787910c54c098665ac154eef9f841074e84d7be
         x-checker-data:
           type: anitya
           project-id: 6239
