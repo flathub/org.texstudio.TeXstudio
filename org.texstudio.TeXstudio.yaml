@@ -37,10 +37,11 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_BOOST=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-21.05.0.tar.xz
-        sha256: dafd537b680fad1215bc40fc53d1f38e8449d7c185bc60d5a89e1d26c90dbd8c
+        url: https://poppler.freedesktop.org/poppler-21.06.0.tar.xz
+        sha256: 4b440708eafdf07a1405e06744c66ac54a5af51a0e38ab17a46fbaff47278342
         x-checker-data:
           type: anitya
           project-id: 3686
