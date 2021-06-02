@@ -37,6 +37,7 @@ modules:
     buildsystem: cmake-ninja
     config-opts:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DENABLE_BOOST=OFF
     sources:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-21.06.0.tar.xz
