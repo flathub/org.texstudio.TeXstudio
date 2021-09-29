@@ -72,6 +72,9 @@ modules:
           type: anitya
           project-id: 6239
           tag-template: $version
+      - type: shell
+        commands:
+          - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|" -i src/main.cpp
       - type: patch
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
       - type: shell
