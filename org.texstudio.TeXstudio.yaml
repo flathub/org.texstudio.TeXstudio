@@ -51,8 +51,8 @@ modules:
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-21.09.0.tar.xz
-        sha256: 5a47fef738c2b99471f9b459a8bf8b40aefb7eed92caa4861c3798b2e126d05b
+        url: https://poppler.freedesktop.org/poppler-21.10.0.tar.xz
+        sha256: 964b5b16290fbec3fae57c2a5bcdea49bb0736bd750c3a3711c47995c9efc394
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -74,7 +74,8 @@ modules:
           tag-template: $version
       - type: shell
         commands:
-          - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|" -i src/main.cpp
+          - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
+            -i src/main.cpp
       - type: patch
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
       - type: shell
