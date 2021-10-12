@@ -10,7 +10,7 @@ add-extensions:
     version: '20.08'
 command: texstudio
 rename-icon: texstudio
-rename-appdata-file: texstudio.appdata.xml
+rename-appdata-file: texstudio.metainfo.xml
 rename-desktop-file: texstudio.desktop
 finish-args:
   - --socket=wayland
@@ -64,7 +64,7 @@ modules:
       - /bin
       - /mkspecs
     sources:
-      - type: git # use git to determine release date for appdata
+      - type: git # use git to determine release date for metainfo
         url: https://github.com/texstudio-org/texstudio
         tag: 4.0.1
         commit: 478d821d896044bad221928744ad1cb554ba2091
@@ -83,9 +83,9 @@ modules:
           - sed -i "s|</description>|<p>Requires either TeX Live being installed on
             the system from your distribution's repositories or the TeX Live Flatpak
             which you can install by running 'flatpak install flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description>|"
-            utilities/texstudio.appdata.xml
+            utilities/texstudio.metainfo.xml
       - type: file
-        path: changelog2appdata.sh
+        path: changelog2metainfo.sh
       - type: shell
         commands:
-          - chmod +x ./changelog2appdata.sh && ./changelog2appdata.sh
+          - chmod +x ./changelog2metainfo.sh && ./changelog2metainfo.sh
