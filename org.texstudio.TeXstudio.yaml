@@ -70,7 +70,7 @@ modules:
         x-checker-data:
           type: anitya
           project-id: 6239
-          tag-template: $version
+          url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
       - type: shell
         commands:
           - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
