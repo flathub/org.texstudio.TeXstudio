@@ -33,7 +33,7 @@ modules:
     build-commands:
       - mkdir /app/texlive
 
-  - name: boost
+  - name: boost # build dependency of poppler
     buildsystem: simple
     build-commands:
       - mkdir -p ${FLATPAK_DEST}/include
@@ -79,7 +79,4 @@ modules:
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
       - type: shell
         commands:
-          - sed -i "s|</description>|<p>Requires either TeX Live being installed on
-            the system from your distribution's repositories or the TeX Live Flatpak
-            which you can install by running 'flatpak install flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description>|"
-            utilities/texstudio.metainfo.xml
+          - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX Live being installed on the system from your distribution's repositories or the TeX Live Flatpak which you can install by running 'flatpak install flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description><launchable|" utilities/texstudio.metainfo.xml
