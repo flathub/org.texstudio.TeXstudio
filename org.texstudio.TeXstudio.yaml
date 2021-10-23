@@ -65,8 +65,8 @@ modules:
       - /mkspecs
     sources:
       - type: archive
-        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.0.1.tar.gz
-        sha256: 4daa2f0ea3e8aaf78c7bb9769ea32b9546e2b103e7ed8f2f69e34d3c280c0a6b
+        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.0.2.tar.gz
+        sha256: 134558670800bf9e9564d25c61efa888ba4b8b0f145c09ca64bcbeffecf12fa6
         x-checker-data:
           type: anitya
           project-id: 6239
@@ -79,4 +79,8 @@ modules:
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
       - type: shell
         commands:
-          - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX Live being installed on the system from your distribution's repositories or the TeX Live Flatpak which you can install by running 'flatpak install flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description><launchable|" utilities/texstudio.metainfo.xml
+          - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
+            Live being installed on the system from your distribution's repositories
+            or the TeX Live Flatpak which you can install by running 'flatpak install
+            flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description><launchable|"
+            utilities/texstudio.metainfo.xml
