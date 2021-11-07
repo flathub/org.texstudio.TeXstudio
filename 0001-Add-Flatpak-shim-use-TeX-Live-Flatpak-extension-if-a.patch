@@ -112,8 +112,8 @@ index d024be9b..4a338b4b 100644
      connect(javaProcess, SIGNAL(finished(int,QProcess::ExitStatus)), javaProcess, SLOT(deleteLater()));
      connect(this, SIGNAL(destroyed()), javaProcess, SLOT(deleteLater()));
  
--    javaProcess->start(quoteSpaces(javaPath),QStringList()<< "-cp" << quoteSpaces(ltPath) << ltArguments.split(" ")); // check sdm
-+    javaProcess->start("flatpak-spawn --host " + quoteSpaces(javaPath),QStringList()<< "-cp" << quoteSpaces(ltPath) << ltArguments.split(" ")); // check sdm
+-    javaProcess->start(javaPath,QStringList()<< "-cp" << ltPath << ltArguments.split(" ")); // check sdm
++    javaProcess->start("flatpak-spawn --host " + javaPath,QStringList()<< "-cp" << ltPath << ltArguments.split(" ")); // check sdm
      javaProcess->waitForStarted(500);
      javaProcess->waitForReadyRead(500);
      errorText=javaProcess->readAllStandardError();
