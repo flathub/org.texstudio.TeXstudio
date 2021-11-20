@@ -65,8 +65,8 @@ modules:
       - /mkspecs
     sources:
       - type: archive
-        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.0.4.tar.gz
-        sha256: d156c1a115ed510ffaae20b2d04fb08ecb24d91b9982e6c05241d5802d97150c
+        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.1.0.tar.gz
+        sha256: 79d9ae4b6339a93a4173eefccea0e246f32be9526becc6e1cb5cb2a36718299c
         x-checker-data:
           type: anitya
           project-id: 6239
