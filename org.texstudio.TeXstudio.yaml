@@ -1,13 +1,13 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '5.15'
+runtime-version: '5.15-21.08'
 sdk: org.kde.Sdk
 add-extensions:
   org.freedesktop.Sdk.Extension.texlive:
     directory: texlive
     subdirectories: true
     autodelete: true
-    version: '20.08'
+    version: '21.08'
 command: texstudio
 rename-icon: texstudio
 rename-appdata-file: texstudio.metainfo.xml
@@ -82,5 +82,5 @@ modules:
           - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
             Live being installed on the system from your distribution's repositories
             or the TeX Live Flatpak which you can install by running 'flatpak install
-            flathub org\.freedesktop\.Sdk\.Extension\.texlive//20\.08'</p></description><launchable|"
+            flathub org\.freedesktop\.Sdk\.Extension\.texlive//21\.08'</p></description><launchable|"
             utilities/texstudio.metainfo.xml
