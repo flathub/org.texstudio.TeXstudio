@@ -1,0 +1,10 @@
+--- ./utilities/texstudio.desktop	2022-08-26 18:27:29.000000000 +0200
++++ ./utilities/texstudio.desktop.patch	2022-10-16 11:17:28.828348062 +0200
+@@ -1,6 +1,6 @@
+ [Desktop Entry]
+ Categories=Office;Publishing;Qt;X-SuSE-Core-Office;X-Mandriva-Office-Publishing;X-Misc;
+-Exec=texstudio %F
++Exec=texstudio.sh %F
+ GenericName=LaTeX Editor
+ GenericName[de]=LaTeX Editor
+ GenericName[fr]=Editeur LaTeX
