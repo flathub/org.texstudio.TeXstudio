@@ -79,8 +79,6 @@ modules:
             -i src/main.cpp
       - type: patch
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
-      - type: patch
-        path: 0002-Use-bash-script-in-desktop-file.patch          
       - type: shell
         commands:
           - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
@@ -92,3 +90,5 @@ modules:
         path: texstudio.sh
     build-commands:
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
+    post-install:
+      - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
