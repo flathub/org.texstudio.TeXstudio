@@ -90,3 +90,5 @@ modules:
         path: texstudio.sh
     build-commands:
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
+    post-install:
+      - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" /app/share/applications/texstudio.desktop
