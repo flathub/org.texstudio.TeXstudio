@@ -1,13 +1,13 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: 5.15-21.08
+runtime-version: 5.15-22.08
 sdk: org.kde.Sdk
 add-extensions:
   org.freedesktop.Sdk.Extension.texlive:
     directory: texlive
     subdirectories: true
     autodelete: true
-    version: '21.08'
+    version: '22.08'
 command: texstudio.sh
 rename-icon: texstudio
 rename-appdata-file: texstudio.metainfo.xml
