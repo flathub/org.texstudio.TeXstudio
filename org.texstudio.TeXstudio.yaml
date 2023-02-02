@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: 5.15-22.08
+runtime-version: 6.4
 sdk: org.kde.Sdk
 add-extensions:
   org.freedesktop.Sdk.Extension.texlive:
