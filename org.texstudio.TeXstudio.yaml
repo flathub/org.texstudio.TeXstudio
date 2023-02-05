@@ -60,7 +60,6 @@ modules:
           url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
 
   - name: texstudio
-    buildsystem: qmake
     cleanup-platform:
       - /bin
       - /mkspecs
