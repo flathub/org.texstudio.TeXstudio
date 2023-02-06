@@ -1,0 +1,14 @@
+--- CMakeLists.txt	2023-02-06 21:01:47.507969182 +0100
++++ CMakeLists.txt_patched	2023-02-06 21:01:23.963970218 +0100
+@@ -423,9 +423,10 @@
+ install(TARGETS texstudio DESTINATION bin)
+ 
+ if(UNIX AND NOT APPLE)
++        option(APPDATA "Install appdata" ON)
+ 	install(FILES utilities/texstudio.desktop DESTINATION share/applications)
+ 	install(FILES utilities/texstudio.svg DESTINATION share/icons/hicolor/scalable/apps)
+-	if(NOT ${NO_APPDATA}) 
++        if(${APPDATA})
+ 		install(FILES utilities/texstudio.metainfo.xml DESTINATION share/metainfo)
+ 	endif()
+ endif()
