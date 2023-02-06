@@ -60,14 +60,14 @@ modules:
           url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
 
   - name: texstudio
-    buildsystem: qmake
+    buildsystem: cmake
     cleanup-platform:
       - /bin
       - /mkspecs
     sources:
       - type: archive
-        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.4.1.tar.gz
-        sha256: 83c46c971081c053a01a186b4a7fbb492d75bef4070ff8fa045311eda186562b
+        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.5.1.tar.gz
+        sha256: afcd10579266eb77c68a115f094b344a4bfe39d570bdb95b59ff91a3ed3e246c
         x-checker-data:
           type: anitya
           project-id: 6239
@@ -79,6 +79,8 @@ modules:
             -i src/main.cpp
       - type: patch
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
+      - type: patch
+        path: patch.txt
       - type: shell
         commands:
           - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
