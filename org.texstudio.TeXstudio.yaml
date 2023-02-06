@@ -80,7 +80,7 @@ modules:
       - type: patch
         path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
       - type: patch
-        path: appdata_oars.patch
+        path: patch.txt
       - type: shell
         commands:
           - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
