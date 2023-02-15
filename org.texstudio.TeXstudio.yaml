@@ -1,7 +1,9 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: 6.4
+runtime-version: '6.4'
 sdk: org.kde.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk17
 add-extensions:
   org.freedesktop.Sdk.Extension.texlive:
     directory: texlive
@@ -21,8 +23,7 @@ finish-args:
   - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
   - --talk-name=org.freedesktop.Flatpak # required for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # required for global menu
-  - --share=network # required for LanguageTool
-  - --env=PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/app/texlive/bin/aarch64-linux # add paths of TeXlive Flatpak extension binaries
+  - --env=PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/app/texlive/bin/aarch64-linux:/app/jre/bin # add paths of TeXlive Flatpak extension binaries
   - --env=LD_LIBRARY_PATH=/app/texlive/lib/ # add library paths
 cleanup:
   - /include
@@ -94,3 +95,22 @@ modules:
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
     post-install:
       - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" /app/share/applications/texstudio.desktop
+
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk17/install.sh
+
+  - name: languagetool
+    buildsystem: simple
+    build-commands:
+      - mkdir /app/languagetool
+      - cp -r * /app/languagetool
+    sources:
+      - url: https://languagetool.org/download/LanguageTool-6.0.zip
+        type: archive
+        sha256: d1a2ab7f59606003db139c65dd76d347d27d298cc465132a970fd167fdacde4f
+        x-checker-data:
+          type: anitya
+          project-id: 241970
+          url-template: https://languagetool.org/download/LanguageTool-$version.zip
