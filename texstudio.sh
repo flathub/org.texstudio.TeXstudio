@@ -8,4 +8,8 @@ export PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/ap
 export PERL5LIB=/app/texlive/lib/perl5/site_perl/$perl_version/:/app/texlive/lib/perl5/$perl_version/
 # add library paths
 export LD_LIBRARY_PATH=/app/texlive/lib/:/app/texlive/lib/perl5/$perl_version/x86_64-linux/CORE/:/app/texlive/lib/perl5/$perl_version/aarch64-linux/CORE/
-texstudio "$@"
+# taken from
+# https://dev.languagetool.org/http-server
+# linked here:
+# https://github.com/languagetool-org/languagetool
+java -cp /app/languagetool/languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin & texstudio "$@"
