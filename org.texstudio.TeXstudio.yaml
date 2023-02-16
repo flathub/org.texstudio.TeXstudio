@@ -10,6 +10,7 @@ add-extensions:
     subdirectories: true
     autodelete: true
     version: '22.08'
+    no-autodownload: true
 command: texstudio.sh
 rename-icon: texstudio
 rename-appdata-file: texstudio.metainfo.xml
