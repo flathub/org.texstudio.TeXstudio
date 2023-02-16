@@ -50,8 +50,16 @@ modules:
 
   - name: poppler # build dependency of TeXstudio
     buildsystem: cmake-ninja
-    config-opts:
+    config-opts: # for command line switches, cf. CMakeLists.txt
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DBUILD_GTK_TESTS=OFF
+      - -DBUILD_QT5_TESTS=OFF
+      - -DBUILD_QT6_TESTS=OFF
+      - -DBUILD_CPP_TESTS=OFF
+      - -DBUILD_MANUAL_TESTS=OFF
+      - -DENABLE_GLIB=OFF
+      - -DENABLE_QT5=OFF
+      - -DENABLE_LIBCURL=OFF
     sources:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-23.02.0.tar.xz
@@ -60,39 +68,6 @@ modules:
           type: anitya
           project-id: 3686
           url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
-
-  - name: texstudio
-    buildsystem: cmake
-    cleanup-platform:
-      - /bin
-      - /mkspecs
-    sources:
-      - type: archive
-        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.5.1.tar.gz
-        sha256: afcd10579266eb77c68a115f094b344a4bfe39d570bdb95b59ff91a3ed3e246c
-        x-checker-data:
-          type: anitya
-          project-id: 6239
-          stable-only: true
-          url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
-      - type: shell
-        commands:
-          - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
-            -i src/main.cpp
-      - type: patch
-        path: 0001-Add-Flatpak-shim-use-TeX-Live-Flatpak-extension-if-a.patch
-      - type: patch
-        path: patch.txt
-      - type: shell
-        commands:
-          - sed -zi "s|</description>[[:space:]]*<launchable|<p>To use your distro's TeX Live installation, prepend 'flatpak-spawn --host ' to to the commands listed under Options > Configure TeXstudio... > Commands</p></description><launchable|"
-            utilities/texstudio.metainfo.xml
-      - type: file
-        path: texstudio.sh
-    build-commands:
-      - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
-    post-install:
-      - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" /app/share/applications/texstudio.desktop
 
   - name: openjdk
     buildsystem: simple
@@ -112,3 +87,35 @@ modules:
           type: anitya
           project-id: 241970
           url-template: https://languagetool.org/download/LanguageTool-$version.zip
+
+  - name: texstudio
+    buildsystem: cmake-ninja
+    config-opts:
+      - -Wno-dev
+    cleanup-platform:
+      - /bin
+      - /mkspecs
+    sources:
+      - type: archive
+        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.5.1.tar.gz
+        sha256: afcd10579266eb77c68a115f094b344a4bfe39d570bdb95b59ff91a3ed3e246c
+        x-checker-data:
+          type: anitya
+          project-id: 6239
+          stable-only: true
+          url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
+      - type: patch
+        path: 0001-Add-flatpak-spawn-to-commands.patch
+      - type: patch
+        path: patch.txt
+      - type: shell
+        commands:
+          - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
+            -i src/main.cpp
+          - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
+      - type: file
+        path: texstudio.sh
+    build-commands:
+      - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
+
+

@@ -1,0 +1,83 @@
+From 0d96580ab6086dcda40690672a38d349b819ad7d Mon Sep 17 00:00:00 2001
+From: Alexander Wilms <f.alexander.wilms@gmail.com>
+Date: Thu, 16 Feb 2023 22:48:06 +0100
+Subject: [PATCH] Add flatpak-spawn to commands
+
+---
+ src/buildmanager.cpp | 52 ++++++++++++++++++++++----------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/src/buildmanager.cpp b/src/buildmanager.cpp
+index 8a8a24202..536046a1a 100644
+--- a/src/buildmanager.cpp
++++ b/src/buildmanager.cpp
+@@ -331,29 +331,29 @@ void BuildManager::initDefaultCommandNames()
+ 	REQUIRE (commands.isEmpty());
+ 
+ 	//id, platform-independent command, display name, arguments
+-	registerCommand("latex",       "latex",        "LaTeX",       "-src -interaction=nonstopmode %.tex", "Tools/Latex");
+-	registerCommand("pdflatex",    "pdflatex",     "PdfLaTeX",    "-synctex=1 -interaction=nonstopmode %.tex", "Tools/Pdflatex");
+-	registerCommand("xelatex",     "xelatex",      "XeLaTeX",     "-synctex=1 -interaction=nonstopmode %.tex", "");
+-	registerCommand("lualatex",    "lualatex",     "LuaLaTeX",    "-synctex=1 -interaction=nonstopmode %.tex", "");
+-	registerCommand("view-dvi",    "",             tr("DVI Viewer"), "%.dvi", "Tools/Dvi", &getCommandLineViewDvi);
+-	registerCommand("view-ps",     "",             tr("PS Viewer"), "%.ps", "Tools/Ps", &getCommandLineViewPs);
+-	registerCommand("view-pdf-external", "",        tr("External PDF Viewer"), "%.pdf", "Tools/Pdf", &getCommandLineViewPdfExternal);
+-	registerCommand("dvips",       "dvips",        "DviPs",       "-o %.ps %.dvi", "Tools/Dvips");
+-	registerCommand("dvipng",      "dvipng",       "DviPng",      "-T tight -D 120 %.dvi", "Tools/Dvipng");
+-	registerCommand("ps2pdf",      "ps2pdf",       "Ps2Pdf",      "%.ps", "Tools/Ps2pdf");
+-	registerCommand("dvipdf",      "dvipdfmx",       "DviPdf",      "%.dvi", "Tools/Dvipdf");
+-    registerCommand("bibtex",      "bibtex",       "BibTeX",       onWin_Nix("%","%.aux"),  "Tools/Bibtex"); //miktex bibtex will stop (appears like crash in txs) if .aux is attached
+-    registerCommand("bibtex8",     "bibtex8",      "BibTeX 8-Bit", onWin_Nix("%","%.aux"));
+-	registerCommand("biber",       "biber",        "Biber" ,       "%"); //todo: correct parameter?
+-	registerCommand("makeindex",   "makeindex",    "Makeindex",   "%.idx", "Tools/Makeindex");
+-	registerCommand("texindy",     "texindy",      "Texindy", "%.idx");
+-	registerCommand("xindex",     "xindex",      "Xindex", "-l * %.idx");
+-	registerCommand("makeglossaries", "makeglossaries", "Makeglossaries", "%");
+-	registerCommand("metapost",    "mpost",        "MetaPost",    "-interaction=nonstopmode ?me)", "Tools/MetaPost");
+-	registerCommand("asy",         "asy",          "Asymptote",   "?m*.asy", "Tools/Asy");
+-	registerCommand("gs",          "gs;mgs",       "Ghostscript", "\"?am.ps\"", "Tools/Ghostscript", &getCommandLineGhostscript);
+-	registerCommand("latexmk",     "latexmk",      "Latexmk",     "-pdf -silent -synctex=1 %");
+-    registerCommand("texdoc",     "texdoc",      "texdoc",     "");
++	registerCommand("latex",       "flatpak-spawn",        "LaTeX",       "--host latex -src -interaction=nonstopmode %.tex", "Tools/Latex");
++	registerCommand("pdflatex",    "flatpak-spawn",     "PdfLaTeX",    "--host pdflatex -synctex=1 -interaction=nonstopmode %.tex", "Tools/Pdflatex");
++	registerCommand("xelatex",     "flatpak-spawn",      "XeLaTeX",     "--host xelatex -synctex=1 -interaction=nonstopmode %.tex", "");
++	registerCommand("lualatex",    "flatpak-spawn",     "LuaLaTeX",    "--host lualatex -synctex=1 -interaction=nonstopmode %.tex", "");
++	registerCommand("view-dvi",    "flatpak-spawn",             tr("DVI Viewer"), "--host %.dvi", "Tools/Dvi", &getCommandLineViewDvi);
++	registerCommand("view-ps",     "flatpak-spawn",             tr("PS Viewer"), "--host %.ps", "Tools/Ps", &getCommandLineViewPs);
++	registerCommand("view-pdf-external", "flatpak-spawn",        tr("External PDF Viewer"), "--host %.pdf", "Tools/Pdf", &getCommandLineViewPdfExternal);
++	registerCommand("dvips",       "flatpak-spawn",        "DviPs",       "--host dvips -o %.ps %.dvi", "Tools/Dvips");
++	registerCommand("dvipng",      "flatpak-spawn",       "DviPng",      "--host dvipng -T tight -D 120 %.dvi", "Tools/Dvipng");
++	registerCommand("ps2pdf",      "flatpak-spawn",       "Ps2Pdf",      "--host ps2pdf %.ps", "Tools/Ps2pdf");
++	registerCommand("dvipdf",      "flatpak-spawn",       "DviPdf",      "--host dvipdfmx %.dvi", "Tools/Dvipdf");
++    registerCommand("bibtex",      "flatpak-spawn",       "BibTeX",       onWin_Nix("bibtex %","--host bibtex %.aux"),  "Tools/Bibtex"); //miktex bibtex will stop (appears like crash in txs) if .aux is attached
++    registerCommand("bibtex8",     "flatpak-spawn",      "BibTeX 8-Bit", onWin_Nix("bibtex8 %","--host bibtex8 %.aux"));
++	registerCommand("biber",       "flatpak-spawn",        "Biber" ,       "--host biber %"); //todo: correct parameter?
++	registerCommand("makeindex",   "flatpak-spawn",    "Makeindex",   "--host makeindex %.idx", "Tools/Makeindex");
++	registerCommand("texindy",     "flatpak-spawn",      "Texindy", "--host texindy %.idx");
++	registerCommand("xindex",     "flatpak-spawn",      "Xindex", "--host xindex -l * %.idx");
++	registerCommand("makeglossaries", "flatpak-spawn", "Makeglossaries", "--host makeglossaries %");
++	registerCommand("metapost",    "flatpak-spawn",        "MetaPost",    "--host mpost -interaction=nonstopmode ?me)", "Tools/MetaPost");
++	registerCommand("asy",         "flatpak-spawn",          "Asymptote",   "--host asy ?m*.asy", "Tools/Asy");
++	registerCommand("gs",          "flatpak-spawn",       "Ghostscript", "--host gs;mgs \"?am.ps\"", "Tools/Ghostscript", &getCommandLineGhostscript);
++	registerCommand("latexmk",     "flatpak-spawn",      "Latexmk",     "--host latexmk -pdf -silent -synctex=1 %");
++    registerCommand("texdoc",     "flatpak-spawn",      "texdoc",     "--host texdoc");
+ 
+ 
+ 	QStringList descriptionList;
+@@ -392,10 +392,10 @@ void BuildManager::initDefaultCommandNames()
+ 	registerCommand("recompile-bibliography", tr("Recompile Bibliography"), QStringList() << "txs:///compile | txs:///bibliography | txs:///compile");
+ 
+ 
+-	registerCommand("svn",         "svn",          "SVN",         "", "Tools/SVN");
+-	registerCommand("svnadmin",    "svnadmin",     "SVNADMIN",    "", "Tools/SVNADMIN");
++	registerCommand("svn",         "flatpak-spawn",          "SVN",         "--host  svn", "Tools/SVN");
++	registerCommand("svnadmin",    "flatpak-spawn",     "SVNADMIN",    "--host svnadmin", "Tools/SVNADMIN");
+ 
+-    registerCommand("git",         "git",          "GIT",         "", "Tools/GIT");
++    registerCommand("git",         "flatpak-spawn",          "GIT",         "--host git", "Tools/GIT");
+ 
+ 	registerCommand("terminal-external", "", tr("External Terminal"), "", "", guessTerminalExternal, false);
+ 
+-- 
+2.39.1
+
