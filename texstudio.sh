@@ -13,4 +13,4 @@ export LD_LIBRARY_PATH=/app/texlive/lib/:/app/texlive/lib/perl5/$perl_version/x8
 # linked here:
 # https://github.com/languagetool-org/languagetool
 # make sure to kill java so we don't end up with lots of unused LanguageTool server instances
-/app/jre/bin/java -cp /app/languagetool/languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin & texstudio "$@" && pkill -SIGKILL java
+/app/jre/bin/java -cp /app/languagetool/languagetool-server.jar org.languagetool.server.HTTPServer --port 8081 --allow-origin > /dev/null & texstudio "$@" && pkill -SIGKILL java
