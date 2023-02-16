@@ -84,10 +84,7 @@ modules:
         path: patch.txt
       - type: shell
         commands:
-          - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
-            Live being installed on the system from your distribution's repositories
-            or the TeX Live Flatpak which you can install by running 'flatpak install
-            flathub org\.freedesktop\.Sdk\.Extension\.texlive//21\.08'</p></description><launchable|"
+          - sed -zi "s|</description>[[:space:]]*<launchable|<p>To use your distro's TeX Live installation, prepend 'flatpak-spawn --host ' to to the commands listed under Options > Configure TeXstudio... > Commands>  </p></description><launchable|"
             utilities/texstudio.metainfo.xml
       - type: file
         path: texstudio.sh
