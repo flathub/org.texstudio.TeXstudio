@@ -20,6 +20,7 @@ finish-args:
   - --socket=fallback-x11
   - --share=ipc
   - --device=dri
+  - --share=network # required for template repository
   - --filesystem=host # required to open files
   - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
   - --talk-name=org.freedesktop.Flatpak # required for flatpak-spawn --host
