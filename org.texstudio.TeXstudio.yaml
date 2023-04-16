@@ -106,8 +106,6 @@ modules:
           url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
       - type: patch
         path: 0001-Add-flatpak-spawn-to-commands.patch
-      - type: patch
-        path: patch.txt
       - type: shell
         commands:
           - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
