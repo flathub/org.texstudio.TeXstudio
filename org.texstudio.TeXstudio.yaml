@@ -88,6 +88,25 @@ modules:
           project-id: 241970
           url-template: https://languagetool.org/download/LanguageTool-$version.zip
 
+  - name: pandoc
+    buildsystem: simple
+    build-commands:
+      - install -D bin/pandoc /app/bin/pandoc
+    # pandoc is only needed for converting the changelog
+    cleanup:
+      - '*'
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-amd64.tar.gz
+        sha256: 7404aa88a6eb9fbb99d9803b80170a3a546f51959230cc529c66a2ce6b950d4c
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-arm64.tar.gz
+        sha256: 4f87bfe8a0a626ad0e17d26d42e99a1c0ed7d369cca00366c1b3d97525f57db5
+
   - name: texstudio
     buildsystem: cmake-ninja
     config-opts:
@@ -96,21 +115,27 @@ modules:
       - /bin
       - /mkspecs
     sources:
-      - type: archive
-        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.5.2.tar.gz
-        sha256: d43dd21a111aacf57e40b0ee27c94b9923f8fdbddec5bad919596abf9a03f3cf
+      - type: git
+        url: https://github.com/texstudio-org/texstudio
+        tag: 4.5.2
+        commit: b79adb4d0ac81f42dff4a71e9c65d556b01d95a6
         x-checker-data:
           type: anitya
           project-id: 6239
           stable-only: true
-          url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
+          tag-template: $version
       - type: patch
         path: 0001-Add-flatpak-spawn-to-commands.patch
+      - type: file
+        path: changelog2metainfo.sh
+        sha256: 701cd82ac2ab6c7fd94bd930e68cb1518c80a5a45755675b4c3acb754d52ab8c
       - type: shell
         commands:
           - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
             -i src/main.cpp
           - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
+          - chmod +x ./changelog2metainfo.sh
+          - ./changelog2metainfo.sh
       - type: file
         path: texstudio.sh
     build-commands:
