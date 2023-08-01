@@ -62,8 +62,8 @@ modules:
       - -DENABLE_LIBCURL=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-23.07.0.tar.xz
-        sha256: f29b4b4bf47572611176454c8f21506d71d27eca5011a39aa44038b30b957db0
+        url: https://poppler.freedesktop.org/poppler-23.08.0.tar.xz
+        sha256: 4a4bf7fc903b9f1a2ab7d04b7c5d8220db9bc6261cc73fdb9a826dc272f49aa8
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -117,8 +117,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/texstudio-org/texstudio
-        tag: 4.5.2
-        commit: b79adb4d0ac81f42dff4a71e9c65d556b01d95a6
+        tag: 4.6.2
+        commit: 9a68d7557d8050ebe55dcf0b6446b0bcf3d9d859
         x-checker-data:
           type: anitya
           project-id: 6239
