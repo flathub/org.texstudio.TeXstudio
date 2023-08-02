@@ -86,7 +86,9 @@ modules:
         x-checker-data:
           type: anitya
           project-id: 241970
-          url-template: https://languagetool.org/download/LanguageTool-$version.zip
+          # tag 2023q3 is not listed on https://languagetool.org/download/
+          # therefore, just always use the "stable" archive
+          url-template: https://languagetool.org/download/LanguageTool-stable.zip
 
   - name: pandoc
     buildsystem: simple
