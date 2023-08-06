@@ -63,8 +63,8 @@ modules:
       - -DENABLE_LIBCURL=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-23.03.0.tar.xz
-        sha256: b04148bf849c1965ada7eff6be4685130e3a18a84e0cce73bf9bc472ec32f2b4
+        url: https://poppler.freedesktop.org/poppler-23.08.0.tar.xz
+        sha256: 4a4bf7fc903b9f1a2ab7d04b7c5d8220db9bc6261cc73fdb9a826dc272f49aa8
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -81,13 +81,34 @@ modules:
       - mkdir /app/languagetool
       - cp -r * /app/languagetool
     sources:
-      - url: https://languagetool.org/download/LanguageTool-6.0.zip
+      - url: https://languagetool.org/download/LanguageTool-stable.zip
         type: archive
-        sha256: d1a2ab7f59606003db139c65dd76d347d27d298cc465132a970fd167fdacde4f
+        sha256: 1e8a10ac8e6c40c077c1640eb85fa9ca615a683fecdf7e00e51e463dcd0a0f49
         x-checker-data:
           type: anitya
           project-id: 241970
-          url-template: https://languagetool.org/download/LanguageTool-$version.zip
+          # tag 2023q3 is not listed on https://languagetool.org/download/
+          # therefore, just always use the "stable" archive
+          url-template: https://languagetool.org/download/LanguageTool-stable.zip
+
+  - name: pandoc
+    buildsystem: simple
+    build-commands:
+      - install -D bin/pandoc /app/bin/pandoc
+    # pandoc is only needed for converting the changelog
+    cleanup:
+      - '*'
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-amd64.tar.gz
+        sha256: 7404aa88a6eb9fbb99d9803b80170a3a546f51959230cc529c66a2ce6b950d4c
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-arm64.tar.gz
+        sha256: 4f87bfe8a0a626ad0e17d26d42e99a1c0ed7d369cca00366c1b3d97525f57db5
 
   - name: texstudio
     buildsystem: cmake-ninja
@@ -97,23 +118,27 @@ modules:
       - /bin
       - /mkspecs
     sources:
-      - type: archive
-        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.5.1.tar.gz
-        sha256: afcd10579266eb77c68a115f094b344a4bfe39d570bdb95b59ff91a3ed3e246c
+      - type: git
+        url: https://github.com/texstudio-org/texstudio
+        tag: 4.6.2
+        commit: 9a68d7557d8050ebe55dcf0b6446b0bcf3d9d859
         x-checker-data:
           type: anitya
           project-id: 6239
           stable-only: true
-          url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
+          tag-template: $version
       - type: patch
         path: 0001-Add-flatpak-spawn-to-commands.patch
-      - type: patch
-        path: patch.txt
+      - type: file
+        path: changelog2metainfo.sh
+        sha256: 701cd82ac2ab6c7fd94bd930e68cb1518c80a5a45755675b4c3acb754d52ab8c
       - type: shell
         commands:
           - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
             -i src/main.cpp
           - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
+          - chmod +x ./changelog2metainfo.sh
+          - ./changelog2metainfo.sh
       - type: file
         path: texstudio.sh
     build-commands:
