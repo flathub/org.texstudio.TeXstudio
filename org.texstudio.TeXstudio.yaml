@@ -19,6 +19,7 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --share=ipc
+  - --share=network # required for template repository. Does not interfere with LanguageTool, which is now accessible on the host as well
   - --device=dri
   - --filesystem=host # required to open files
   - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
