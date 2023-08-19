@@ -11,6 +11,11 @@ add-extensions:
     autodelete: true
     version: '22.08'
     no-autodownload: true
+  org.texstudio.TeXstudio.Extension.ngrams:
+    directory: ngrams
+    subdirectories: true
+    autodelete: true
+    no-autodownload: true
 command: texstudio.sh
 rename-icon: texstudio
 rename-appdata-file: texstudio.metainfo.xml
@@ -32,11 +37,11 @@ cleanup:
   - /lib/pkgconfig
   - /share/man
 modules:
-  - name: texlive-extension
+  - name: extension-points
     buildsystem: simple
     build-commands:
       - mkdir /app/texlive
-
+      - mkdir ${FLATPAK_DEST}/ngrams
   - name: boost # build dependency of poppler
     buildsystem: simple
     build-commands:
