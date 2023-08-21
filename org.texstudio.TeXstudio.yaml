@@ -146,6 +146,11 @@ modules:
           - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
           - chmod +x ./changelog2metainfo.sh
           - ./changelog2metainfo.sh
+          - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
+            Live being installed on the system from your distribution's repositories
+            or the TeX Live Flatpak which you can install by running 'flatpak install
+            flathub org\.freedesktop\.Sdk\.Extension\.texlive//22\.08'</p></description><launchable|"
+            utilities/texstudio.metainfo.xml
     build-commands:
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./flatpak-wrapper
