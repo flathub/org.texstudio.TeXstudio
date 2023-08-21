@@ -127,21 +127,28 @@ modules:
           project-id: 6239
           stable-only: true
           tag-template: $version
-      - type: patch
-        path: 0001-Add-flatpak-spawn-to-commands.patch
       - type: file
         path: changelog2metainfo.sh
         sha256: 701cd82ac2ab6c7fd94bd930e68cb1518c80a5a45755675b4c3acb754d52ab8c
+      - type: file
+        path: texstudio.sh
+      - type: file
+        path: flatpak-wrapper
+      - type: file
+        path: replace_commands.py
       - type: shell
         commands:
+          - python3 replace_commands.py
+          # git diff causes issues with buildbot
+          # - git diff
           - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
             -i src/main.cpp
           - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
           - chmod +x ./changelog2metainfo.sh
           - ./changelog2metainfo.sh
-      - type: file
-        path: texstudio.sh
     build-commands:
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
+      - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./flatpak-wrapper
+
 
 
