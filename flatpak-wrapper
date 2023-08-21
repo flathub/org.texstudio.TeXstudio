@@ -1,0 +1,11 @@
+#!/bin/bash
+# echo "command: $@"
+command=$@
+DIRECTORY=/app/texlive/bin
+if [ -d "$DIRECTORY" ]; then
+    echo "Using TeX Live Flatpak"
+else
+    echo "Using TeX Live from host"
+    command="flatpak-spawn --host $command"
+fi
+$command
