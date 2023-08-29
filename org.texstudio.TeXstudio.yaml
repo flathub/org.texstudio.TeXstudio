@@ -26,7 +26,7 @@ finish-args:
   - --share=ipc
   - --share=network # required for template repository. Does not interfere with LanguageTool, which is now accessible on the host as well
   - --device=dri
-  # filesystem access: required to open files, until native filechooser portal is implemented
+  # filesystem access: required e.g. for \include, \input or \includegraphics
   - --filesystem=home
   - --filesystem=/media
   - --filesystem=/mnt
