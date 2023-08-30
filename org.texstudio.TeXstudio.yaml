@@ -31,7 +31,6 @@ finish-args:
   - --filesystem=/media
   - --filesystem=/mnt
   - --filesystem=/run/media
-  - --filesystem=/var/run/media
   - --filesystem=/var/mnt
   - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
   - --talk-name=org.freedesktop.Flatpak # required for flatpak-spawn --host
