@@ -27,11 +27,7 @@ finish-args:
   - --share=network # required for template repository. Does not interfere with LanguageTool, which is now accessible on the host as well
   - --device=dri
   # filesystem access: required e.g. for \include, \input or \includegraphics
-  - --filesystem=home
-  - --filesystem=/media
-  - --filesystem=/mnt
-  - --filesystem=/run/media
-  - --filesystem=/var/mnt
+  - --filesystem=host
   - --filesystem=/tmp # this way lualatex etc. can access files newly ceated by TeXstudio stored in the hosts's /tmp
   - --talk-name=org.freedesktop.Flatpak # required for flatpak-spawn --host
   - --talk-name=com.canonical.AppMenu.Registrar # required for global menu
