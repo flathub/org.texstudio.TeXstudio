@@ -9,7 +9,7 @@ add-extensions:
     directory: texlive
     subdirectories: true
     autodelete: true
-    version: '23.08'
+    version: '22.08'
     no-autodownload: true
   org.texstudio.TeXstudio.Extension.ngrams:
     directory: ngrams
