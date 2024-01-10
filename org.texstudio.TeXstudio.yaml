@@ -87,15 +87,14 @@ modules:
       - mkdir /app/languagetool
       - cp -r * /app/languagetool
     sources:
-      - url: https://languagetool.org/download/LanguageTool-stable.zip
+      - url: https://languagetool.org/download/LanguageTool-6.3.zip
         type: archive
-        sha256: 1e8a10ac8e6c40c077c1640eb85fa9ca615a683fecdf7e00e51e463dcd0a0f49
-        x-checker-data:
-          type: anitya
-          project-id: 241970
-          # tag 2023q3 is not listed on https://languagetool.org/download/
-          # therefore, just always use the "stable" archive
-          url-template: https://languagetool.org/download/LanguageTool-stable.zip
+        sha256: 32f529f249b15f758b38cc00e4818af3b3478490c2a0ae2825e2b5e980473e08
+        # currently, the Git tags don't match
+        #x-checker-data:
+        #  type: anitya
+        #  project-id: 241970
+        #  url-template: https://languagetool.org/download/LanguageTool-stable.zip
 
   - name: pandoc
     buildsystem: simple
