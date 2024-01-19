@@ -1,11 +1,38 @@
 #!/bin/bash
-# echo "command: $@"
-command="$@"
+# Save all the arguments in an array
+args=("$@")
+# Initialize an empty string
+args_string=""
+# Loop through all the arguments
+for arg in "${args[@]}"; do
+  # Function to check if quotes are present in the argument
+  check_quotes() {
+    if [[ $1 == *\ * ]]; then
+      echo "\"$1\""
+    else
+      echo "$1"
+    fi
+  }
+  # Save and print the argument
+  checked_arg=$(check_quotes "$arg")
+  # echo "Argument: $checked_arg"
+  # Append the argument to the string
+  if [[ $args_string ]]; then
+    args_string+=" $checked_arg"
+  else
+    args_string="$checked_arg"
+  fi
+done
+# Print the string containing all the arguments
+#echo "Arguments String: $args_string"
+
+# Check which TeX Live to use
 DIRECTORY=/app/texlive/bin
 if [ -d "$DIRECTORY" ]; then
     echo "Using TeX Live Flatpak"
 else
     echo "Using TeX Live from host"
-    command="flatpak-spawn --host \"$command\""
+    command="flatpak-spawn --host $args_string"
 fi
-$command
+echo $command
+command
