@@ -34,5 +34,5 @@ else
     echo "Using TeX Live from host"
     command="flatpak-spawn --host $args_string"
 fi
-echo $command
-command
+echo command: $command
+$command
