@@ -1,17 +1,15 @@
 #!/bin/bash
 
- if [ -d /app/texlive ]
- then
-     cd /app/texlive/lib/perl5/site_perl/
-     perl_version=$(ls)
-     # add paths of TeXlive Flatpak extension binaries
-     export PATH=/usr/bin:/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/app/texlive/bin/aarch64-linux
-     # add include paths for Perl @INC variable
-     export PERL5LIB=/app/texlive/lib/perl5/$perl_version:/app/texlive/lib/perl5/site_perl/$perl_version
-     # add library paths
-     export LD_LIBRARY_PATH=/app/texlive/lib:/app/texlive/lib/perl5/$perl_version/x86_64-linux/CORE
+perl_dir=/app/texlive/lib/perl5/site_perl/
+if [ -d $perl_dir ]; then
+    cd $perl_dir
+    perl_version=$(ls)
+    # add include paths for Perl @INC variable
+    export PERL5LIB=/app/texlive/lib/perl5/$perl_version:/app/texlive/lib/perl5/site_perl/$perl_version
+    # add library paths
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/app/texlive/lib/perl5/$perl_version/x86_64-linux/CORE
 fi
- 
+
 # taken from
 # https://dev.languagetool.org/http-server
 # linked here:
