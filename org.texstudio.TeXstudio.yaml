@@ -38,11 +38,13 @@ cleanup:
   - /lib/pkgconfig
   - /share/man
 modules:
+  
   - name: extension-points
     buildsystem: simple
     build-commands:
       - mkdir /app/texlive
-      - mkdir ${FLATPAK_DEST}/ngrams
+      - mkdir ${FLATPAK_DEST}/ngrams # intended for https://github.com/flathub/flathub/pull/4446
+
   - name: boost # build dependency of poppler
     buildsystem: simple
     build-commands:
@@ -125,8 +127,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/texstudio-org/texstudio
-        tag: 4.7.2
-        commit: e20fc64072713e3a3d9d4479d9e2302e762ace06
+        commit: e81785bd9fb4f58f3214faa35cc7bfa9d6f79f49
         x-checker-data:
           type: anitya
           project-id: 6239
@@ -134,23 +135,14 @@ modules:
           tag-template: $version
       - type: file
         path: changelog2metainfo.sh
-        sha256: 701cd82ac2ab6c7fd94bd930e68cb1518c80a5a45755675b4c3acb754d52ab8c
       - type: file
         path: texstudio.sh
-      - type: file
-        path: flatpak-wrapper
-      - type: file
-        path: replace_commands.py
       - type: shell
         commands:
-          - python3 replace_commands.py
-          # git diff causes issues with buildbot
-          # - git diff
           - sed -e "s|setDesktopFileName(\"texstudio\")|setDesktopFileName(\"org.texstudio.TeXstudio\")|"
             -i src/main.cpp
           - desktop-file-edit --set-key=Exec --set-value="texstudio.sh %F" utilities/texstudio.desktop
-          - chmod +x ./changelog2metainfo.sh
-          - ./changelog2metainfo.sh
+          - chmod +x ./changelog2metainfo.sh && ./changelog2metainfo.sh
           - sed -zi "s|</description>[[:space:]]*<launchable|<p>Requires either TeX
             Live being installed on the system from your distribution's repositories
             or the TeX Live Flatpak which you can install by running 'flatpak install
@@ -158,7 +150,3 @@ modules:
             utilities/texstudio.metainfo.xml
     build-commands:
       - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./texstudio.sh
-      - install -Dm755 -t ${FLATPAK_DEST}/bin/ ./flatpak-wrapper
-
-
-

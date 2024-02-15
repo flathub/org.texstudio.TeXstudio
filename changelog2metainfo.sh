@@ -5,6 +5,9 @@ cd .github
 cd ..
 RELEASE_OPENING_TAG="<release date=\"$RELEASE_DATE\" version=\"$TXS_VERSION\">"
 DESCRIPTION_OPENING_TAG="<description>"
+# turn links into plain text
+# [#3458](https://github.com/texstudio-org/texstudio/pull/3458) -> #3458
+sed -i -E 's|\[([^]]*)]\(([^)]*)\)|\1|g' utilities/manual/source/CHANGELOG.md
 CHANGELOG=$(sed '/^[[:space:]]*$/d' utilities/manual/source/CHANGELOG.md | tail -n +2 | awk 'NR==2,/##/' | head -n -1 | pandoc --from markdown --to html5 )
 DESCRIPTION_CLOSING_TAG="</description>"
 RELEASE_CLOSING_TAG="</release>"
