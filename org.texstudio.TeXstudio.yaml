@@ -77,6 +77,19 @@ modules:
           project-id: 3686
           url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
 
+  - name: poppler-data
+  # without this, TeXstudio will have problem with builtin pdf viewer
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+    sources:
+      - type: archive
+        url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
+        sha256: c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74
+    post-install:
+      - install -p -D -m 0644 ../COPYING* -t "${FLATPAK_DEST}/share/licenses/poppler-data/";
+
   - name: openjdk
     buildsystem: simple
     build-commands:
