@@ -77,8 +77,7 @@ modules:
           project-id: 3686
           url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
 
-  - name: poppler-data
-  # without this, TeXstudio will have problem with builtin pdf viewer
+  - name: poppler-data # required to properly display CJK chars in PDF viewer
     buildsystem: cmake-ninja
     builddir: true
     config-opts:
@@ -87,6 +86,10 @@ modules:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
         sha256: c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74
+        x-checker-data:
+          type: anitya
+          project-id: 3687
+          url-template: https://poppler.freedesktop.org/poppler-data-$version.tar.gz
     post-install:
       - install -p -D -m 0644 ../COPYING* -t "${FLATPAK_DEST}/share/licenses/poppler-data/";
 
