@@ -44,18 +44,6 @@ modules:
       - mkdir /app/texlive
       - mkdir ${FLATPAK_DEST}/ngrams # intended for https://github.com/flathub/flathub/pull/4446
 
-  - name: boost # build dependency of poppler
-    buildsystem: simple
-    build-commands:
-      - mkdir -p ${FLATPAK_DEST}/include
-      - mv boost ${FLATPAK_DEST}/include
-    cleanup:
-      - /include
-    sources:
-      - type: archive
-        url: https://boostorg.jfrog.io/artifactory/main/release/1.73.0/source/boost_1_73_0.tar.bz2
-        sha256: 4eb3b8d442b426dc35346235c8733b5ae35ba431690e38c6a8263dce9fcbb402
-
   - name: poppler # build dependency of TeXstudio
     buildsystem: cmake-ninja
     config-opts: # for command line switches, cf. CMakeLists.txt
@@ -68,6 +56,7 @@ modules:
       - -DENABLE_GLIB=OFF
       - -DENABLE_QT5=OFF
       - -DENABLE_LIBCURL=OFF
+      - -DENABLE_BOOST=OFF
     sources:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-24.05.0.tar.xz
