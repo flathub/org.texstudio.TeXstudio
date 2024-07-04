@@ -96,11 +96,10 @@ modules:
       - url: https://languagetool.org/download/LanguageTool-6.3.zip
         type: archive
         sha256: 32f529f249b15f758b38cc00e4818af3b3478490c2a0ae2825e2b5e980473e08
-        # currently, the Git tags don't match
-        #x-checker-data:
-        #  type: anitya
-        #  project-id: 241970
-        #  url-template: https://languagetool.org/download/LanguageTool-stable.zip
+        x-checker-data:
+          type: anitya
+          project-id: 241970
+          url-template: https://languagetool.org/download/LanguageTool-$version.zip
 
   - name: pandoc
     buildsystem: simple
