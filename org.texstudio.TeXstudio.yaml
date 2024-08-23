@@ -130,7 +130,6 @@ modules:
     sources:
       - type: git
         url: https://github.com/Alexander-Wilms/texstudio
-        branch: master
         commit: 542c0083dcd39d977040053e26c99b9aa99d433d
         x-checker-data:
           type: anitya
