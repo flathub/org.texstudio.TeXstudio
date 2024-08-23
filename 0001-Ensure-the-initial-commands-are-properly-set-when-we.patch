@@ -1,0 +1,45 @@
+From c713598268ecb38368d8c6c4ffb0b5f53bb6ebac Mon Sep 17 00:00:00 2001
+From: Alexander Wilms <f.alexander.wilms@gmail.com>
+Date: Fri, 23 Aug 2024 20:49:54 +0200
+Subject: [PATCH] Ensure the initial commands are properly set when we're in a
+ Flatpak sandbox
+
+---
+ src/buildmanager.cpp | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/src/buildmanager.cpp b/src/buildmanager.cpp
+index 84627e963..b61e11cb3 100644
+--- a/src/buildmanager.cpp
++++ b/src/buildmanager.cpp
+@@ -106,7 +106,7 @@ QString CommandInfo::guessCommandLine(const QString texpath) const
+ 
+ 	if (!baseName.isEmpty()) {
+ 		//search it
+-        QString bestCommand = searchBaseCommand(baseName, defaultArgs,texpath);
++		QString bestCommand = searchBaseCommand(baseName, defaultArgs,texpath);
+ 		if (!bestCommand.isEmpty()) return bestCommand;
+ 	}
+ 
+@@ -896,6 +896,18 @@ QString searchBaseCommand(const QString &cmd, QString options, QString texPath)
+         }
+ 
+         //platform dependent mess
++#ifdef Q_OS_LINUX
++	// If we're in a Flatpak environment and TeX Live is installed on the host, we can't easily search the commands
++	// So, just assume they're present, even if org.freedesktop.Sdk.Extension.texlive is installed
++
++	// Retrieve the environment variables
++	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
++
++	// Check if FLATPAK_SANDBOX_DIR is set
++	if (env.contains("FLATPAK_SANDBOX_DIR")) {
++		return fileName + options;
++	}
++#endif
+ #ifdef Q_OS_WIN32
+         //Windows MikTex
+         QString mikPath = getMiKTeXBinPath();
+-- 
+2.46.0
+
