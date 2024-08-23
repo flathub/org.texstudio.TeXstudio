@@ -137,6 +137,8 @@ modules:
           project-id: 6239
           stable-only: true
           tag-template: $version
+      - type: patch
+        path: 0001-Ensure-the-initial-commands-are-properly-set-when-we.patch
       - type: file
         path: changelog2metainfo.sh
       - type: file
