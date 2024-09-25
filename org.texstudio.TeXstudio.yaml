@@ -130,8 +130,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/texstudio-org/texstudio
-        tag: 4.8.2
-        commit: 36f6771996fb24c4cc43ca8cbfc939774a86c21a
+        tag: 4.8.3
+        commit: 02e4c9db7f3cdd2201bf2730c51df7c5aa66a876
         x-checker-data:
           type: anitya
           project-id: 6239
