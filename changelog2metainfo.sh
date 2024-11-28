@@ -16,11 +16,16 @@ RELEASE_CLOSING_TAG="</release>"
 
 sed -i '/releases/,/releases/{//!d}' utilities/texstudio.metainfo.xml
 
-if [ "$CHANGELOG" != "<li></li>" ]; then
+# something with the formatting changed, check for a substring instead
+if [[ "$CHANGELOG" != *"<li></li>"* ]]; then
+	echo "creating changelog"
 	RELEASE_TAG=$RELEASE_OPENING_TAG$DESCRIPTION_OPENING_TAG$CHANGELOG$DESCRIPTION_CLOSING_TAG$RELEASE_CLOSING_TAG
 else
+	echo "changelog empty"
 	RELEASE_TAG=$RELEASE_OPENING_TAG$RELEASE_CLOSING_TAG
 fi
+
+echo $RELEASE_TAG
 
 # this avoids an issue with sed
 # https://unix.stackexchange.com/a/360541/148421
