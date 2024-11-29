@@ -59,8 +59,8 @@ modules:
       - -DENABLE_BOOST=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-24.08.0.tar.xz
-        sha256: 97453fbddf0c9a9eafa0ea45ac710d3d49bcf23a62e864585385d3c0b4403174
+        url: https://poppler.freedesktop.org/poppler-24.11.0.tar.xz
+        sha256: 7723d880565211740c13649d24a300257b86ddd7fa2d208187ff7e5cc8dfbd58
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -93,9 +93,9 @@ modules:
       - mkdir /app/languagetool
       - cp -r * /app/languagetool
     sources:
-      - url: https://languagetool.org/download/LanguageTool-6.4.zip
+      - url: https://languagetool.org/download/LanguageTool-6.5.zip
         type: archive
-        sha256: d5d517335d1ca33f33412920447fa0c742ef78d645521d650e0e22628fe0d3bd
+        sha256: 27f3ae5a29efbc8267a5a266908dfec205d16d312af8516e0b5bcec871edea0b
         x-checker-data:
           type: anitya
           project-id: 241970
