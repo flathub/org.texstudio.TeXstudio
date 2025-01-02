@@ -59,8 +59,8 @@ modules:
       - -DENABLE_BOOST=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-24.08.0.tar.xz
-        sha256: 97453fbddf0c9a9eafa0ea45ac710d3d49bcf23a62e864585385d3c0b4403174
+        url: https://poppler.freedesktop.org/poppler-24.12.0.tar.xz
+        sha256: 1cf374c3146f3f685d9257701bf0c2866c61d6c202c14d1f5c01a1f3a089028a
         x-checker-data:
           type: anitya
           project-id: 3686
