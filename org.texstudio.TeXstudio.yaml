@@ -59,8 +59,8 @@ modules:
       - -DENABLE_BOOST=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-25.01.0.tar.xz
-        sha256: 7eefc122207bbbd72a303c5e0743f4941e8ae861e24dcf0501e18ce1d1414112
+        url: https://poppler.freedesktop.org/poppler-25.03.0.tar.xz
+        sha256: 97da4ff88517a6bbd729529f195f85c8d7a0c3bb4a3d57cb0c685cbb052fe837
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -93,9 +93,9 @@ modules:
       - mkdir /app/languagetool
       - cp -r * /app/languagetool
     sources:
-      - url: https://languagetool.org/download/LanguageTool-6.5.zip
+      - url: https://languagetool.org/download/LanguageTool-6.6.zip
         type: archive
-        sha256: 27f3ae5a29efbc8267a5a266908dfec205d16d312af8516e0b5bcec871edea0b
+        sha256: 53600506b399bb5ffe1e4c8dec794fd378212f14aaf38ccef9b6f89314d11631
         x-checker-data:
           type: anitya
           project-id: 241970
@@ -130,8 +130,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/texstudio-org/texstudio
-        tag: 4.8.5
-        commit: a0be4e193e3d164eb92d898221c21b1cdd9d55ae
+        tag: 4.8.6
+        commit: 4d4b9fa0aafb1ad07f1771bf3b4e8a09dd6db0f9
         x-checker-data:
           type: anitya
           project-id: 6239
