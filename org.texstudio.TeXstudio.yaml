@@ -93,9 +93,9 @@ modules:
       - mkdir /app/languagetool
       - cp -r * /app/languagetool
     sources:
-      - url: https://languagetool.org/download/LanguageTool-6.5.zip
+      - url: https://languagetool.org/download/LanguageTool-6.6.zip
         type: archive
-        sha256: 27f3ae5a29efbc8267a5a266908dfec205d16d312af8516e0b5bcec871edea0b
+        sha256: 53600506b399bb5ffe1e4c8dec794fd378212f14aaf38ccef9b6f89314d11631
         x-checker-data:
           type: anitya
           project-id: 241970
