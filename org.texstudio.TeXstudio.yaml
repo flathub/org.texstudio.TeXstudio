@@ -58,13 +58,13 @@ modules:
       - -DENABLE_LIBCURL=OFF
       - -DENABLE_BOOST=OFF
     sources:
-      - type: archive
-        url: https://poppler.freedesktop.org/poppler-25.04.0.tar.xz
-        sha256: b010c596dce127fba88532fd2f1043e55ea30601767952d0f2c0a80e7dc0da3d
+      - type: git
+        url: https://gitlab.freedesktop.org/poppler/poppler.git
+        tag: poppler-25.04.0
+        commit: a0f064e8393d0f9dc62d630f08d2c961b37c5a27
         x-checker-data:
-          type: anitya
-          project-id: 3686
-          url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+          type: git
+          tag-pattern: poppler-([\d.]+)
 
   - name: poppler-data # required to properly display CJK chars in PDF viewer
     buildsystem: cmake-ninja
@@ -72,13 +72,13 @@ modules:
     config-opts:
       - -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
     sources:
-      - type: archive
-        url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
-        sha256: c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74
+      - type: git
+        url: https://gitlab.freedesktop.org/poppler/poppler-data.git
+        tag: POPPLER_DATA_0_4_12
+        commit: af9f452b427d5ce8abe81ff98cc40c5f39fad90b
         x-checker-data:
-          type: anitya
-          project-id: 3687
-          url-template: https://poppler.freedesktop.org/poppler-data-$version.tar.gz
+          type: git
+          tag-pattern: POPPLER_DATA_([\d_]+)
     post-install:
       - install -p -D -m 0644 ../COPYING* -t "${FLATPAK_DEST}/share/licenses/poppler-data/";
 
