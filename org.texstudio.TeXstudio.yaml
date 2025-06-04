@@ -60,11 +60,11 @@ modules:
     sources:
       - type: git
         url: https://gitlab.freedesktop.org/poppler/poppler.git
-        tag: poppler-25.05.0
-        commit: 6dd9782d8391f112ef9743ba13614f1d858ce9f2
+        tag: poppler-25.06.0
+        commit: 04bd91684ed41d67ae0f10cde0660e4ed74ac203
         x-checker-data:
           type: git
-          tag-pattern: poppler-([\d.]+)
+          tag-pattern: ^poppler-([\d.]+)$
 
   - name: poppler-data # required to properly display CJK chars in PDF viewer
     buildsystem: cmake-ninja
@@ -78,7 +78,7 @@ modules:
         commit: af9f452b427d5ce8abe81ff98cc40c5f39fad90b
         x-checker-data:
           type: git
-          tag-pattern: POPPLER_DATA_([\d_]+)
+          tag-pattern: ^POPPLER_DATA_([\d_]+)$
     post-install:
       - install -p -D -m 0644 ../COPYING* -t "${FLATPAK_DEST}/share/licenses/poppler-data/";
 
@@ -133,10 +133,8 @@ modules:
         tag: 4.8.7
         commit: 389de5386c627f43c918ee9ee6cf8ca828886c1d
         x-checker-data:
-          type: anitya
-          project-id: 6239
-          stable-only: true
-          tag-template: $version
+          type: git
+          tag-pattern: ^([\d.]+)$
       - type: file
         path: changelog2metainfo.sh
       - type: file
