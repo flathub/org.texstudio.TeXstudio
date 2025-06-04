@@ -112,13 +112,13 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-amd64.tar.gz
-        sha256: 7404aa88a6eb9fbb99d9803b80170a3a546f51959230cc529c66a2ce6b950d4c
+        url: https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-amd64.tar.gz
+        sha256: 8f8f67fdd540b6519326b0ac49d5c55c5d5d15e43920e80a086e02c8aff83268
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-arm64.tar.gz
-        sha256: 4f87bfe8a0a626ad0e17d26d42e99a1c0ed7d369cca00366c1b3d97525f57db5
+        url: https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-arm64.tar.gz
+        sha256: 4ef2997ff0fa7f86ada5a217722f4f732293e38518b4442ececce16628bd0e44
 
   - name: texstudio
     buildsystem: cmake-ninja
