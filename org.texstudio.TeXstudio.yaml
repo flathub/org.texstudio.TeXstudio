@@ -60,8 +60,8 @@ modules:
     sources:
       - type: git
         url: https://gitlab.freedesktop.org/poppler/poppler.git
-        tag: poppler-25.07.0
-        commit: 4e9d2aed7c2ca173a9905687f2387b7f5b549b23
+        tag: poppler-25.08.0
+        commit: fd0b2b60e6f1321963bb3b7733457a3028fa4826
         x-checker-data:
           type: git
           tag-pattern: ^poppler-([\d.]+)$
