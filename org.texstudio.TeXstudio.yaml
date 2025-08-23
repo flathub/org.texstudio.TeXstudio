@@ -56,31 +56,43 @@ modules:
       - -DENABLE_GLIB=OFF
       - -DENABLE_QT5=OFF
       - -DENABLE_LIBCURL=OFF
-      - -DENABLE_BOOST=OFF
     sources:
-      - type: git
-        url: https://gitlab.freedesktop.org/poppler/poppler.git
-        tag: poppler-25.08.0
-        commit: fd0b2b60e6f1321963bb3b7733457a3028fa4826
+      - type: archive
+        url: https://poppler.freedesktop.org/poppler-25.08.0.tar.xz
+        sha256: 425ed4d4515a093bdcdbbaac6876f20617451edc710df6a4fd6c45dd67eb418d
         x-checker-data:
-          type: git
-          tag-pattern: ^poppler-([\d.]+)$
-
-  - name: poppler-data # required to properly display CJK chars in PDF viewer
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
-    sources:
-      - type: git
-        url: https://gitlab.freedesktop.org/poppler/poppler-data.git
-        tag: POPPLER_DATA_0_4_12
-        commit: af9f452b427d5ce8abe81ff98cc40c5f39fad90b
-        x-checker-data:
-          type: git
-          tag-pattern: ^POPPLER_DATA_([\d_]+)$
-    post-install:
-      - install -p -D -m 0644 ../COPYING* -t "${FLATPAK_DEST}/share/licenses/poppler-data/";
+          type: anitya
+          project-id: 3686
+          url-template: https://poppler.freedesktop.org/poppler-$version.tar.xz
+    modules:
+      - name: poppler-data # required to properly display CJK chars in PDF viewer
+        buildsystem: cmake-ninja
+        builddir: true
+        config-opts:
+          - -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+        sources:
+          - type: archive
+            url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
+            sha256: c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74
+            x-checker-data:
+              type: anitya
+              project-id: 3687
+              url-template: https://poppler.freedesktop.org/poppler-data-$version.tar.gz
+        post-install:
+          - install -p -D -m 0644 ../COPYING* -t "${FLATPAK_DEST}/share/licenses/poppler-data/";
+      - name: boost
+        buildsystem: simple
+        build-commands:
+          - ./bootstrap.sh --prefix=/app --with-libraries=system
+          - ./b2 -j $FLATPAK_BUILDER_N_JOBS install
+        sources:
+          - type: archive
+            url: https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.gz
+            sha256: 9de758db755e8330a01d995b0a24d09798048400ac25c03fc5ea9be364b13c93
+            x-checker-data:
+              type: anitya
+              project-id: 6845
+              url-template: https://archives.boost.io/release/$version/source/boost_${version0}_${version1}_${version2}.tar.gz
 
   - name: openjdk
     buildsystem: simple
@@ -114,11 +126,19 @@ modules:
           - x86_64
         url: https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-amd64.tar.gz
         sha256: 8f8f67fdd540b6519326b0ac49d5c55c5d5d15e43920e80a086e02c8aff83268
+        x-checker-data:
+          type: anitya
+          project-id: 2589
+          url-template: https://github.com/jgm/pandoc/releases/download/$version/pandoc-$version-linux-amd64.tar.gz
       - type: archive
         only-arches:
           - aarch64
         url: https://github.com/jgm/pandoc/releases/download/3.7.0.2/pandoc-3.7.0.2-linux-arm64.tar.gz
         sha256: 4ef2997ff0fa7f86ada5a217722f4f732293e38518b4442ececce16628bd0e44
+        x-checker-data:
+          type: anitya
+          project-id: 2589
+          url-template: https://github.com/jgm/pandoc/releases/download/$version/pandoc-$version-linux-arm64.tar.gz
 
   - name: texstudio
     buildsystem: cmake-ninja
@@ -128,13 +148,13 @@ modules:
       - /bin
       - /mkspecs
     sources:
-      - type: git
-        url: https://github.com/texstudio-org/texstudio.git
-        tag: 4.8.8
-        commit: 365339964d03d8ca46461b8061f304159b804316
+      - type: archive
+        url: https://github.com/texstudio-org/texstudio/archive/refs/tags/4.8.8.tar.gz
+        sha256: 75b11533a2c85fa941aa63a77da583da47d2b65909a55d465ac8ce7cdaddd4fe
         x-checker-data:
-          type: git
-          tag-pattern: ^([\d.]+)$
+          type: anitya
+          project-id: 6239
+          url-template: https://github.com/texstudio-org/texstudio/archive/refs/tags/$version.tar.gz
       - type: file
         path: changelog2metainfo.sh
       - type: file
