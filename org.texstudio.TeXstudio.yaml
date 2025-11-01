@@ -1,6 +1,6 @@
 app-id: org.texstudio.TeXstudio
 runtime: org.kde.Platform
-runtime-version: '6.9'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk
@@ -9,12 +9,7 @@ add-extensions:
     directory: texlive
     subdirectories: true
     autodelete: true
-    version: '24.08'
-    no-autodownload: true
-  org.texstudio.TeXstudio.Extension.ngrams:
-    directory: ngrams
-    subdirectories: true
-    autodelete: true
+    version: '25.08'
     no-autodownload: true
 command: texstudio.sh
 rename-icon: texstudio
@@ -42,7 +37,6 @@ modules:
     buildsystem: simple
     build-commands:
       - mkdir /app/texlive
-      - mkdir ${FLATPAK_DEST}/ngrams # intended for https://github.com/flathub/flathub/pull/4446
 
   - name: poppler # build dependency of TeXstudio
     buildsystem: cmake-ninja
