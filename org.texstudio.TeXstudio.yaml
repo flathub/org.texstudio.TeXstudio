@@ -53,8 +53,8 @@ modules:
       - -DENABLE_GPGME=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-25.11.0.tar.xz
-        sha256: 63f155142b77349e2bccaef148e754e7506ab1641e713b83af4f54a8f8b15369
+        url: https://poppler.freedesktop.org/poppler-25.12.0.tar.xz
+        sha256: c18b40eb36b1a0c5b86e29ca054bf0770304583da4f2cdd42fe86eca6a20de48
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -82,8 +82,8 @@ modules:
           - ./b2 -j $FLATPAK_BUILDER_N_JOBS install
         sources:
           - type: archive
-            url: https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.gz
-            sha256: 9de758db755e8330a01d995b0a24d09798048400ac25c03fc5ea9be364b13c93
+            url: https://archives.boost.io/release/1.90.0/source/boost_1_90_0.tar.gz
+            sha256: 5e93d582aff26868d581a52ae78c7d8edf3f3064742c6e77901a1f18a437eea9
             x-checker-data:
               type: anitya
               project-id: 6845
@@ -119,8 +119,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/jgm/pandoc/releases/download/3.8.2.1/pandoc-3.8.2.1-linux-amd64.tar.gz
-        sha256: b362815e21d8ad3629c124aa92baf54558da086ad72374b4f6fdd97b9f3275b0
+        url: https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-linux-amd64.tar.gz
+        sha256: c224fab89f827d3623380ecb7c1078c163c769c849a14ac27e8d3bfbb914c9b4
         x-checker-data:
           type: anitya
           project-id: 2589
@@ -128,8 +128,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/jgm/pandoc/releases/download/3.8.2.1/pandoc-3.8.2.1-linux-arm64.tar.gz
-        sha256: 852e898c2490fa840ae75a8b6af8a6c9d6d63b77ef170c32ec3a17958464d929
+        url: https://github.com/jgm/pandoc/releases/download/3.8.3/pandoc-3.8.3-linux-arm64.tar.gz
+        sha256: 166a5a37387eb10bd4c4f242a8109beef755ac1e8d4eb039c6b5ebd1d918d8d7
         x-checker-data:
           type: anitya
           project-id: 2589
