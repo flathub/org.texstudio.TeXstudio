@@ -119,8 +119,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/jgm/pandoc/releases/download/3.9/pandoc-3.9-linux-amd64.tar.gz
-        sha256: 872a10c7ec29d5278831d855b11bd4ade0df4d5ec9a089a3197bc63a37eb4003
+        url: https://github.com/jgm/pandoc/releases/download/3.9.0.1/pandoc-3.9.0.1-linux-amd64.tar.gz
+        sha256: 59ba9a300f90999f648445578d45258305b336929f2d7acaa802e724a419615c
         x-checker-data:
           type: anitya
           project-id: 2589
@@ -128,8 +128,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/jgm/pandoc/releases/download/3.9/pandoc-3.9-linux-arm64.tar.gz
-        sha256: e09b97d7313bd417a35bde6c747c458486ec84f696e1cfd0f8c527cd69c89433
+        url: https://github.com/jgm/pandoc/releases/download/3.9.0.1/pandoc-3.9.0.1-linux-arm64.tar.gz
+        sha256: 78e45afec64fd17b0badebb8b8b7202c84865afec66f8156e279e0fc7a2f4d9e
         x-checker-data:
           type: anitya
           project-id: 2589
