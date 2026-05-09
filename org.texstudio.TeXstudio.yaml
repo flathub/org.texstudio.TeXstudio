@@ -145,8 +145,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/texstudio-org/texstudio.git
-        tag: 4.9.3
-        commit: 75d09a3319e80c746e6470aa562ae67cf2eb1116
+        tag: 4.9.4
+        commit: 8608b4a928d5af8b3f4217fefc13a0fd1e2817e0
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
