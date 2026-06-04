@@ -53,8 +53,8 @@ modules:
       - -DENABLE_GPGME=OFF
     sources:
       - type: archive
-        url: https://poppler.freedesktop.org/poppler-26.05.0.tar.xz
-        sha256: 6fef27ff04f37db43054c86bcdff6128c9fb1f6af4ef3c8b369a7e9abd68d0bb
+        url: https://poppler.freedesktop.org/poppler-26.06.0.tar.xz
+        sha256: 4cb4e5a3dc8cb5eec751c8a23c8ba19f61f96dedc0cd07d2aee6b0c8e2cf6ba4
         x-checker-data:
           type: anitya
           project-id: 3686
@@ -119,8 +119,8 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/jgm/pandoc/releases/download/3.9.0.2/pandoc-3.9.0.2-linux-amd64.tar.gz
-        sha256: a69abfababda8a56969a254b09f9553a7be89ddec00d4e0fe9fd585d71a67508
+        url: https://github.com/jgm/pandoc/releases/download/3.10/pandoc-3.10-linux-amd64.tar.gz
+        sha256: e0f8af62d0f267d22baa5bcefe6d5dda3a097ccc60de794b759fe03159923244
         x-checker-data:
           type: anitya
           project-id: 2589
@@ -128,8 +128,8 @@ modules:
       - type: archive
         only-arches:
           - aarch64
-        url: https://github.com/jgm/pandoc/releases/download/3.9.0.2/pandoc-3.9.0.2-linux-arm64.tar.gz
-        sha256: b6d21e8f9c3b15744f5a7ab40248019157ed7793875dbe0383d4c82ff572b528
+        url: https://github.com/jgm/pandoc/releases/download/3.10/pandoc-3.10-linux-arm64.tar.gz
+        sha256: 55413dfb0c1aec861641fe858f1f73e84848f3db497b1c0c02e62887ea76f4a4
         x-checker-data:
           type: anitya
           project-id: 2589
