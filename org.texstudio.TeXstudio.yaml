@@ -145,11 +145,12 @@ modules:
     sources:
       - type: git
         url: https://github.com/texstudio-org/texstudio.git
-        tag: 4.9.6
-        commit: ded45cc67772934862cdf34c67f81b8baf61fc56
+        tag: 4.9.7        
+        commit: 3eee2d2890277fb54f324db0fb4e2e7cce733ea7
         x-checker-data:
           type: git
           tag-pattern: ^([\d.]+)$
+          is-important: true
       - type: file
         path: changelog2metainfo.sh
       - type: file
